@@ -12,7 +12,7 @@ const userType = {
 
 export const signUp = async (req: Request, res: Response) => {
     try {
-        const { name, email, password, phoneNumber, role } = req.body;
+        const { name, email, address, password, phoneNumber, role } = req.body;
 
         const saltRounds = 10;
         const hash = await bcrypt.hash(password, saltRounds);
