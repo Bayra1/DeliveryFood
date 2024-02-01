@@ -22,28 +22,43 @@ export default function SignUp() {
     const [password, setPassword] = useState<String>('');
     const [rePassword, setRePassword] = useState<String>('')
     const [showPassword, setShowPassword] = React.useState(false);
+    const [showRePassword, setRehowPassword] = React.useState(false);
+    const [error, setError] = useState<String>('')
+    const [buttonClass, setButtonClass] = useState('inactive');
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handShowRePassword = () => setRehowPassword((show) => (!show))
 
-    const handleMouseDownPassword = (event: any) => {
-        event.preventDefault();
+    const handleInputChange = (event : any) => {
+        setName(event.target.value);
+        setButtonClass(event.target.value !== '' ? 'active' : 'inactive');
     };
+
+    const handleButtonClick = () => {
+        console.log(name);
+        
+    }
+
 
     const addClients = async () => {
         try {
-            if (password !== rePassword) {
-                console.log('Passwords do not match');
-                return;
+            if (password == rePassword) {
+                const userData = await axios.post(backEnd, {
+                    name,
+                    email,
+                    phoneNumber,
+                    password
+                });
+                console.log('This is user data', userData);
+            } else {
+                setError('All Forms should not be empty')
+                console.log('can not register');
+                setTimeout(() => {
+                    setError('')
+                }, 2000);
             }
 
-            const userData = await axios.post(backEnd, {
-                name,
-                email,
-                phoneNumber,
-                password
-            });
 
-            console.log('This is user data', userData);
         } catch (error) {
             console.log('Failed to create a client', error);
         }
@@ -57,7 +72,7 @@ export default function SignUp() {
 
                 <Stack border="none">
                     <Typography variant="body1" gutterBottom>Нэр</Typography>
-                    <TextField value={name} onChange={(e) => setName(e.target.value)} sx={{ width: "500px" }} id="filled-basic" placeholder='Нэрээ оруулна уу' variant="filled" />
+                    <TextField value={name} onChange={handleInputChange} sx={{ width: "500px" }} id="filled-basic" placeholder='Нэрээ оруулна уу' variant="filled" />
                 </Stack>
 
                 <Stack>
@@ -92,7 +107,6 @@ export default function SignUp() {
                                     <IconButton
                                         aria-label="toggle password visibility"
                                         onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
                                     >
                                         {showPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
@@ -110,25 +124,31 @@ export default function SignUp() {
                             onChange={(e) => setRePassword(e.target.value)}
                             placeholder="Нууц үг"
                             id="standard-adornment-password"
-                            type={showPassword ? 'text' : 'password'}
+                            type={showRePassword ? 'text' : 'password'}
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
+                                        onClick={handShowRePassword}
                                     >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {showRePassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
                                 </InputAdornment>
                             }
                         />
                     </FormControl>
+                    <Typography color='red' variant="h6">{error}</Typography>
                 </Stack>
 
 
                 <Stack sx={{ gap: "32px" }}>
-                    <Button sx={{ background: '#EEEFF2', borderRadius: '4px', color: 'grey' }}>Нэвтрэх</Button>
+                    <Button
+                        className={buttonClass}
+                        onClick={handleButtonClick}
+                        sx={{ background: '#EEEFF2', borderRadius: '4px', color: 'grey' }}
+                    >
+                        Нэвтрэх
+                    </Button>
                     <div style={{ width: "500px", justifyContent: "center", textAlign: "center" }}>Эсвэл</div>
                     <Button onClick={addClients} sx={{ borderColor: "#18BA51", borderStyle: "solid", borderWidth: "2px" }} variant="outlined">Бүртгүүлэх</Button>
 

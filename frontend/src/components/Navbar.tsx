@@ -17,7 +17,7 @@ import { useState } from "react";
 
 const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС'];
 
-function Navbar({onClick} : any) {
+function Navbar({ onClick }: any) {
   const [searchText, setSearchText] = useState<String>('');
 
   const handleSearch = () => {

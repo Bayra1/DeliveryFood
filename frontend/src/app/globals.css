@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.active {
+    background-color: green;
+    color: white;
+}
+
+.inactive {
+    background-color: gray;
+    color: black;
+}

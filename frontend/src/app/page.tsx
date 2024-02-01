@@ -7,6 +7,8 @@ import Modal from '@/components/Modal';
 import Login from '@/components/Login';
 import Footer from '@/components/Footer';
 import SignUp from '@/components/SignUp';
+import YourComponent from '@/components/Test';
+import HomePage from '@/components/Home';
 
 export default function Home() {
   const [modal, setModal] = React.useState(false);
@@ -21,8 +23,8 @@ export default function Home() {
     <Box height="fit-content">
       <Navbar onClick={handleModal} />
       {modal && <Modal />}
-      {/* <Login /> */}
-      <SignUp/>
+      <HomePage/>
+      {/* <SignUp/> */}
       {/* <Footer/> */}
     </Box>
   );
