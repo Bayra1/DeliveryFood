@@ -35,9 +35,9 @@ function Footer() {
                     }
                 </Stack>
             </Stack>
-            <Box sx={{ position: 'absolute', bottom: '800px', left: '100px', width: '100%' }}>
+            {/* <Box sx={{ position: 'absolute', bottom: '800px', left: '100px', width: '100%' }}>
                 <FoodSvg />
-            </Box>
+            </Box> */}
         </Box>
     )
 }

@@ -4,27 +4,26 @@ import Box from "@mui/material/Box";
 import BigFood from "./assets/Group 534.png";
 import FoodSvg from "../components/Svg/FoodSvg";
 import Deliveries from "./Deliveries";
+import Footer from "./Footer";
 
 export default function HomePage() {
     return (
-        <Box>
+        <Box width={"100%"}>
             <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
-                <Box position='relative' justifyContent='space-between' alignItems='center' sx={{ display: "flex" }} width='1500px'>
-                    <Stack position='absolute'>
-                        <FoodSvg />
-                    </Stack>
+                <Box justifyContent='space-between' alignItems='center' sx={{ display: "flex" }} width={"80%"}>                    
                     <Stack>
-                        <Typography sx={{ fontWeight: 500 }} color='white' variant="h2">PineCone <br /> Food Delivery</Typography>
+                        <Typography sx={{ fontWeight: 500 }} color='white' variant="h4">PineCone <br /> Food Delivery</Typography>
                         <Typography mb={2} mt={2} border={"1px solid white"}></Typography>
                         <Typography color='white' variant="h6">Horem ipsum dolor sit amet,</Typography>
                         <Typography color='white' variant="h6">consectetur adipiscing elit.</Typography>
                     </Stack>
-                    <Stack>
-                        <img className="w-[650px] h-p[650px]" src={BigFood.src} alt="" />
+                    <Stack sx={{width:"450xp", height:"450xp"}}>
+                        {/* <img className="w-[450px] h-p[450px]" src={BigFood.src} alt="" /> */}
                     </Stack>
                 </Box>
             </Box>
             <Deliveries />
+            <Footer/>
         </Box>
     );
 }

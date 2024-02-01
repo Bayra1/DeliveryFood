@@ -31,7 +31,7 @@ function Navbar({ onClick }: any) {
 
   return (
     <AppBar sx={{ backgroundColor: "white", boxShadow: 0 }} position="static">
-      <Container maxWidth="xl">
+      <Container >
         <Toolbar disableGutters>
           <PineconeLogo />
 
