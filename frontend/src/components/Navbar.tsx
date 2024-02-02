@@ -30,9 +30,9 @@ function Navbar({ onClick }: any) {
   };
 
   return (
-    <AppBar sx={{ backgroundColor: "white", boxShadow: 0 }} position="static">
-      <Container >
-        <Toolbar disableGutters>
+    <AppBar sx={{ backgroundColor: "white", boxShadow: 0 , width:"100%"}} position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters >
           <PineconeLogo />
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
