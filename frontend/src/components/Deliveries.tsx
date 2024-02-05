@@ -2,7 +2,6 @@ import { ImportContacts, AccessTime} from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import { Typography } from "@mui/material";
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import * as React from 'react';
 import Card from '@mui/material/Card';
@@ -33,11 +32,12 @@ export default function Deliveries() {
     ]
     return (
         <Box mt={25} sx={{ display: "flex" }} width={"100%"} justifyContent={"center"} alignItems={"center"}>
-            <Box display={"flex"} gap={2} width={"80%"}>
+            <Box display={"flex"} justifyContent={'space-between'} width={"65%"}>
                 {
                     data.map((element, i) => {
                         return (
                             <Card key={i} sx={{ minWidth: 275 }}>
+
                                 <CardContent>
                                     <element.icon sx={{ color: "green" }} />
                                     <Typography sx={{ fontSize: 16 }} fontWeight={700} color="black" gutterBottom>
