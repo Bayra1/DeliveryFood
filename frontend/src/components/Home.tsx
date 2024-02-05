@@ -5,11 +5,14 @@ import BigFood from "./assets/Group 534.png";
 import FoodSvg from "../components/Svg/FoodSvg";
 import Deliveries from "./Deliveries";
 import Footer from "./Footer";
-import SaleCards from "./Sale";
+import DiscountCards from "./Discount";
+import MainFood from "./MainFood";
+import Navbar from "./Navbar";
 
 export default function HomePage() {
     return (
         <Box width={"100%"}>
+            <Navbar/>
             <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
                 <Box justifyContent='space-between' alignItems='center' sx={{ display: "flex" }} width='65%'>                    
                     <Stack>
@@ -24,7 +27,8 @@ export default function HomePage() {
                 </Box>
             </Box>
             <Deliveries />
-            <SaleCards/>
+            <DiscountCards/>
+            <MainFood/>
             <Footer/>
         </Box>
     );

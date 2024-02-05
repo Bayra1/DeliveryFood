@@ -5,6 +5,8 @@ import bp from "body-parser";
 import { connectDatabase } from "./utils/database";
 import { user } from "./router/user";
 
+connectDatabase();
+
 dotenv.config();
 
 const app = express();
@@ -14,7 +16,6 @@ app.use(bp.json());
 app.use(cors());
 
 const start = () => {
-    connectDatabase();
 
     app.use('/user', user);
 

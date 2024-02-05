@@ -13,31 +13,55 @@ import IconButton from '@mui/material/IconButton';
 import BasketLogo from './icons/BasketLogo';
 import ProfileLogo from './icons/ProfileLogo';
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 
 const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС'];
 
 function Navbar({ onClick }: any) {
   const [searchText, setSearchText] = useState<String>('');
+  const [isIngre, setIsIngre] = useState(false)
+  const router = useRouter();
+
+  const NavigateIng = () => {
+    router.push('/Ingredient')
+  }
+
+  const NavigateHome = () => {
+    router.push('/Home')
+  }
+
+  const NavigateDelZone = () => {
+    router.push('/DeliveryZone')
+  }
 
   const handleSearch = () => {
     console.log('Searching for:', searchText);
   };
 
-  const handleInputChange = (event: any) => {
+  const handleInputChange = (event : any) => {
     setSearchText(event.target.value);
 
   };
 
   return (
-    <AppBar sx={{ backgroundColor: "white", boxShadow: 0 , width:"100%"}} position="static">
+    <AppBar sx={{ backgroundColor: "white", boxShadow: 0, width: "100%" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters >
           <PineconeLogo />
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Button
+                style={{ color: isIngre ? 'green' : 'black' }}
+                onClick={() => {
+                  if (index === 0) {
+                    NavigateHome()
+                  } else if (index === 1) {
+                    NavigateIng()
+                  } else if (index === 2) {
+                    NavigateDelZone()
+                  }
+                }}
                 key={page}
                 sx={{ my: 2, color: 'black', display: 'block' }}
               >
@@ -45,6 +69,7 @@ function Navbar({ onClick }: any) {
               </Button>
             ))}
           </Box>
+
           {/* Search Input */}
 
           <Box>

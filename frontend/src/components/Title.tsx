@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import ExtensionIcon from '@mui/icons-material/Extension';
 export default function Title(props: { title: String }) {
     return (
-        <Box flexDirection={'row'} sx={{display:'flex'}}>
+        <Box gap={2} flexDirection={'row'} sx={{display:'flex'}}>
             <Stack color={'#18BA51'}>
                 <ExtensionIcon />
             </Stack>

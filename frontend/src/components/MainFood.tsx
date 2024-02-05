@@ -85,7 +85,7 @@ const styleName = {
 };
 
 
-export default function SaleCards() {
+export default function MainFood() {
     const data = [
         {
             img: Bean,
@@ -118,7 +118,7 @@ export default function SaleCards() {
             <Stack sx={innerContainer}>
 
                 <Stack sx={disCategory}>
-                    <Title title={'Discount'} />
+                    <Title title={'Үндсэн хоол'} />
                     <Stack style={buttonClass}>
                         <Button sx={{ color: '#18BA51' }}>
                             Бүгдийг харах
