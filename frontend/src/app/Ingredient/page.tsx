@@ -12,17 +12,18 @@ import { CardActionArea } from '@mui/material';
 export default function MenuCategory() {
     const filtersName = ['BreaksFast', 'Soup', 'MainCourse', 'Dessert'];
     const [selectedCategory, setSelectedCategory] = useState(filtersName[0])
-    const [isChosenButton, setIsChoseButton] = useState(false)
+    const [isActive, setIsActive] = useState(0)
 
 
-    const handleColor = () => {
-        setIsChoseButton(true)
+    const handleColor = (index: number) => {
+        setIsActive(index)
     }
 
+    console.log(isActive,'this index')
 
-    const handleFilterChange = (category: string) => {
+    const handleFilterChange = (category : string) => {
         setSelectedCategory(category);
-        console.log(isChosenButton);
+        // console.log(isChosenButton);
     };
 
     const styleDiscount = {
@@ -131,11 +132,11 @@ export default function MenuCategory() {
         color: 'Black',
         fontWeight: 500,
         fontSize: '18px',
-        borderColor: '#D6D8DB'
+        borderColor: '#D6D8DB',
     };
 
 
-    function filterData(category: string) {
+    function filterData(category : string) {
 
         switch (category) {
             case 'BreakFast':
@@ -163,22 +164,25 @@ export default function MenuCategory() {
             <Stack mt={10} width={'100%'} justifyContent={'center'} alignItems={'center'}>
 
                 <Box width={'67%'} sx={{ display: 'flex' }} justifyContent={'space-between'}>
-                    {filtersName.map((element, index) => (
-                        <Button
-                            onChange={handleColor}
-                            sx={{ backgroundColor: isChosenButton ? "green" : "white" }}
-                            style={buttonStyle}
-                            key={index}
-                            onClick={() => handleFilterChange(element)}
-                        >
-                            {element}
-                        </Button>
-                    ))}
+                    {filtersName.map((element, index) => {
+                        return (
+                            <Button
+                                style={{...buttonStyle, backgroundColor: index === isActive ? "#18BA51" : "white" }}
+                                key={index}
+                                onClick={() => {
+                                    handleColor(index)
+                                    handleFilterChange(element)
+                                }}
+                            >
+                                {element}
+                            </Button>
+                        )
+                    })}
                 </Box>
 
-                <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} gap={5}>
+                <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} gap={16}>
                     {filterData(selectedCategory).map((element, i) => (
-                        <Card sx={{ width: '350px', height: 'fit-content' }} key={i}>
+                        <Card sx={{ width: '282px' }} key={i}>
 
                             <CardActionArea>
                                 <img style={{ height: '186px', width: '100%' }} src={element.img} alt="" />
@@ -187,7 +191,7 @@ export default function MenuCategory() {
                                         {element.name}
                                     </Typography>
                                     <Stack flexDirection={'row'} gap={5}>
-                                        <Typography>
+                                        <Typography color={'#18BA51'}>
                                             {element.price}₮
                                         </Typography>
                                         <Typography sx={styleDiscount} color="text.secondary">

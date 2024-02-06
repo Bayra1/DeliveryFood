@@ -12,7 +12,7 @@ import Navbar from "./Navbar";
 export default function HomePage() {
     return (
         <Box width={"100%"}>
-            <Navbar/>
+            {/* <Navbar/> */}
             <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
                 <Box justifyContent='space-between' alignItems='center' sx={{ display: "flex" }} width='65%'>                    
                     <Stack>
