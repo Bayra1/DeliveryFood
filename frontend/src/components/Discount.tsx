@@ -21,7 +21,7 @@ const container = {
 const innerContainer = {
     display: 'flex',
     justifyContent: 'space-between',
-    width: '65%',
+    width: '80%',
     flexDirection: 'column' as 'column',
 };
 
@@ -126,12 +126,12 @@ export default function DiscountCards() {
                     </Stack>
                 </Stack>
 
-                <Stack gap={5} justifyContent={'space-between'} sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Stack gap={2} justifyContent={'space-between'} sx={{ display: 'flex', flexDirection: 'row' }}>
                     {
                         data.map((element, i) => {
                             return (
 
-                                <Card sx={{ width: '350px', height: 'fit-content' }} key={i}>
+                                <Card sx={{ height: 'fit-content',  minWidth: 275 }} key={i}>
                                     <CardActionArea>
                                         <img style={{ height: '186px', width: '100%' }} src={element.img} alt="" />                                        
                                         <CardContent>

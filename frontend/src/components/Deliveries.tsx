@@ -31,8 +31,8 @@ export default function Deliveries() {
         }
     ]
     return (
-        <Box mt={25} sx={{ display: "flex" }} width={"100%"} justifyContent={"center"} alignItems={"center"}>
-            <Box display={"flex"} justifyContent={'space-between'} width={"65%"}>
+        <Box mt={15} sx={{ display: "flex" }} width={"100%"} justifyContent={"center"} alignItems={"center"}>
+            <Box display={"flex"} justifyContent={'space-between'} gap={2} width={"80%"}>
                 {
                     data.map((element, i) => {
                         return (

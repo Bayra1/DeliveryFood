@@ -19,7 +19,7 @@ export default function Home() {
   }
 
   return (
-    <Box height="fit-content">
+    <Box height="fit-content" sx={{display:"flex"}} justifyContent={"center"} alignItems={"center"} flexDirection={"column"}>
       <Navbar onClick={handleModal} />
       {modal && <Modal />}
       <HomePage/>
