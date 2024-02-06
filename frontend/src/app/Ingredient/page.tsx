@@ -55,6 +55,20 @@ export default function MenuCategory() {
         flexGrow: 0,
     };
 
+
+    const buttonStyle = {
+        width: '280.5px',
+        height: '43px',
+        padding: '8px 16px',
+        borderRadius: '8px',
+        border: '1px solid',
+        gap: '8px',
+        color: 'Black',
+        fontWeight: 500,
+        fontSize: '18px',
+        borderColor: '#D6D8DB'
+    };
+
     const breakFastData = [
         {
             img: 'https://s3-alpha-sig.figma.com/img/669a/97ce/f4ad7e823b2a1cb020f7b7e74bce1ed7?Expires=1708300800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qi4Hce6GFKvwr2JWLWcs7c-IZVXb69fPg-tr9~NJ3C0NOBHNZI~0A9wEwsChG4lLJFUnZBq8FIX5KyJnQeGdJxeS4xRxPYDGvRbmRwGuXLFuycL9ePu2GZLs7~RuWcv5ztWntYY-p1VEjEGhPz8TEqO7PTcsNkg3s2HTlLmfcgDcu4p4tHif2g~d61F~40h0zGqTaN6OSgW63rYowpnPKO6fhmVIWBuRZjiDNAoPF7jZ~oeXObWvXoAMpfoOzu8ZMf~U3djy22Utg~fjp0RXQefsOIRQSf7ns0523dbTkYESDPokTJf~S-Ad8uuRi6rIqd1NhFHky-i4ARkMqGppWg__',
@@ -121,21 +135,7 @@ export default function MenuCategory() {
         }
     ];
 
-    const buttonStyle = {
-        width: '280.5px',
-        height: '43px',
-        padding: '8px 16px',
-        borderRadius: '8px',
-        border: '1px solid',
-        gap: '8px',
-        color: 'Black',
-        fontWeight: 500,
-        fontSize: '18px',
-        borderColor: '#D6D8DB'
-    };
-
-
-    function filterData(category: string) {
+    function filterData(category : string) {
 
         switch (category) {
             case 'BreakFast':

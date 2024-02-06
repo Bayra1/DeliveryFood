@@ -14,7 +14,7 @@ export default function HomePage() {
         <Box width={"100%"}>
             <Navbar/>
             <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
-                <Box justifyContent='space-between' alignItems='center' sx={{ display: "flex" }} width='65%'>                    
+                <Box justifyContent='space-between' alignItems='center' sx={{ display: "flex" }} width='80%'>                    
                     <Stack>
                         <Typography sx={{ fontWeight: 500 }} color='white' variant="h4">PineCone <br /> Food Delivery</Typography>
                         <Typography mb={2} mt={2} border={"1px solid white"}></Typography>
