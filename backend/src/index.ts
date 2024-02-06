@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import bp from "body-parser";
 import { connectDatabase } from "./utils/database";
 import { user } from "./router/user";
+import { food } from "./router/food";
 
 connectDatabase();
 
@@ -18,6 +19,7 @@ app.use(cors());
 const start = () => {
 
     app.use('/user', user);
+    app.use('/food', food);
 
     app.get('/', (_, res) => {
         res.status(200).send({
