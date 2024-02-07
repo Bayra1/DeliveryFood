@@ -8,13 +8,15 @@ import Footer from "./Footer";
 import DiscountCards from "./Discount";
 import MainFood from "./MainFood";
 import Navbar from "./Navbar";
+import BackPicture from "./icons/bckImg";
 
 export default function HomePage() {
     return (
         <Box width={"100%"}>
             {/* <Navbar/> */}
-            <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
-                <Box justifyContent='space-between' alignItems='center' sx={{ display: "flex" }} width='65%'>                    
+            <Box  sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
+                <BackPicture/>
+                <Box justifyContent='space-between' width={"80%"} alignItems='center' sx={{ display: "flex" }}>                    
                     <Stack>
                         <Typography sx={{ fontWeight: 500 }} color='white' variant="h4">PineCone <br /> Food Delivery</Typography>
                         <Typography mb={2} mt={2} border={"1px solid white"}></Typography>

@@ -132,11 +132,11 @@ export default function MenuCategory() {
         color: 'Black',
         fontWeight: 500,
         fontSize: '18px',
-        borderColor: '#D6D8DB',
+        borderColor: '#D6D8DB'
     };
 
 
-    function filterData(category : string) {
+    function filterData(category: string) {
 
         switch (category) {
             case 'BreakFast':
