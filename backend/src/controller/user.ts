@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { userModel } from "../model/user";
 import bcrypt from "bcrypt";
-import  jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export const signUp = async (req: Request, res: Response) => {
     try {
@@ -52,25 +52,27 @@ export const fetchAllUSers = async (req: Request, res: Response) => {
 export const Login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body
+        console.log(req.body);
 
-        const desiredUser : any = await userModel.findOne({ email })
+        const desiredUser: any = await userModel.findOne({ email })
 
         if (!desiredUser) {
-            return res.status(404).send({msg : 'user cannot be found'});
+            return res.status(404).send({ msg: 'user cannot be found' });
         }
 
         const legi = bcrypt.compare(password, desiredUser.password)
-
+        console.log(legi);
+        
         if (!legi) {
             return res.status(404).send({
-                msg : 'Email or PassWord Incorrect'
+                msg: 'Email or PassWord Incorrect'
             })
         }
 
-        const token = jwt.sign({desiredUser}, 'MY_SECRET_KEY');
+        const token = jwt.sign({ desiredUser }, 'MY_SECRET_KEY');
 
         return res.status(200).send({
-            success: true, 
+            success: true,
             token
         })
 

@@ -11,7 +11,7 @@ connectDatabase();
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 
 app.use(bp.json());
 app.use(cors());
