@@ -16,7 +16,7 @@ export default function HomePage() {
             {/* <Navbar/> */}
             <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
                 <Stack>
-                    <BackPicture />
+                    {/* <BackPicture /> */}
                 </Stack>
                 <Box justifyContent='space-between' width={"80%"} alignItems='center' sx={{ display: "flex" }}>
                     <Stack>

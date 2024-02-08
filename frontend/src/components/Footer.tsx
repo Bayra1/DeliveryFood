@@ -12,7 +12,7 @@ function Footer() {
         <Box sx={{ bgcolor: '#18BA51', height: '545px', display: 'flex', alignItems: "center", justifyContent: "center", position: 'relative', marginTop: '100px', backgroundImage: '' }}>
             <Stack height={'332px'} width={'1200px'} direction={"row"} flexDirection={"column"} gap={'40px'} >
 
-                <BackPicture />
+                {/* <BackPicture /> */}
                 <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={"center"}>
                     <PineConeLogo />
                     <Typography sx={{ color: 'white' }}>Food Delivery</Typography>
