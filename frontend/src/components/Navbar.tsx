@@ -43,13 +43,17 @@ function Navbar({ onClick }: any) {
 
   };
 
+  const containerStyle = {
+    maxWidth: "80%"
+  }
+
   return (
-    <AppBar sx={{ backgroundColor: "white", boxShadow: 0, width: "85%" }} position="static">
-      <Container maxWidth="xl">
+    <AppBar sx={{ backgroundColor: "white", boxShadow: 0,  }} position="static">
+      <Container  style={containerStyle}>
         <Toolbar disableGutters >
           <PineconeLogo />
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', } }}>
             {pages.map((page, index) => (
               <Button
                 style={{ color: isIngre ? 'green' : 'black' }}
