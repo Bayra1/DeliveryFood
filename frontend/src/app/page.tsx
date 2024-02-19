@@ -8,6 +8,7 @@ import Login from '@/components/Login';
 import Footer from '@/components/Footer';
 import YourComponent from '@/components/Test';
 import HomePage from '@/components/Home';
+import FoodCrud from '@/components/FoodCrud';
 
 export default function Home() {
   const [modal, setModal] = React.useState(false);
@@ -19,10 +20,11 @@ export default function Home() {
   }
 
   return (
-    <Box height="fit-content">
+    <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'} height="fit-content">
       <Navbar onClick={handleModal} />
       {modal && <Modal />}
-      <HomePage/>
+      {/* <HomePage/> */}
+      <FoodCrud/>
       {/* <SignUp/> */}
       {/* <Footer/> */}
     </Box>

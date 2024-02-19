@@ -16,8 +16,9 @@ export const postFood = async (req: Request, res: Response) => {
 
 export const updateFood = async (req: Request, res: Response) => {
     try {
+        const id = req.params.id   
         const { name, ingredient, discount } = req.body;
-        const updatedFood = await foodModel.updateOne({ name }, { ingredient, discount });
+        const updatedFood = await foodModel.findByIdAndUpdate(id, { name, ingredient, discount });
         return res.status(200).send({
             success: true,
             updatedFood,

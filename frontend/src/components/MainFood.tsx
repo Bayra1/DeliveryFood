@@ -88,14 +88,14 @@ const styleName = {
 export default function MainFood() {
     const data = [
         {
-            img: 'https://s3-alpha-sig.figma.com/img/669a/97ce/f4ad7e823b2a1cb020f7b7e74bce1ed7?Expires=1708300800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qi4Hce6GFKvwr2JWLWcs7c-IZVXb69fPg-tr9~NJ3C0NOBHNZI~0A9wEwsChG4lLJFUnZBq8FIX5KyJnQeGdJxeS4xRxPYDGvRbmRwGuXLFuycL9ePu2GZLs7~RuWcv5ztWntYY-p1VEjEGhPz8TEqO7PTcsNkg3s2HTlLmfcgDcu4p4tHif2g~d61F~40h0zGqTaN6OSgW63rYowpnPKO6fhmVIWBuRZjiDNAoPF7jZ~oeXObWvXoAMpfoOzu8ZMf~U3djy22Utg~fjp0RXQefsOIRQSf7ns0523dbTkYESDPokTJf~S-Ad8uuRi6rIqd1NhFHky-i4ARkMqGppWg__',
-            name: 'Өглөөний хоол',
+            img: 'https://s3-alpha-sig.figma.com/img/1f91/a1b6/d973c90c192043aefe86e4258acae7e6?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mrKNTktvMZdf~8BPiiTJURm8j4Kgr9J-QbMQaiBso8EnhWMJO4lCBmYpeOi8zOCWUdY5mCD4P8erlo~ezrBlACxlLcdubo8EfKGxaNj6VzVrG0lBT2tQvilUGhaIVwFVa4sVDMo3vbxBIVl5HZDMhIRZc2HMBZ5tj1I5EpBtVHUOtPXBKHFGPyOiO2ZbGpMKBY5wrnSlojyvMvAluqbn9kffeGhZ3JMY6KT~9pdSUVzI8hzRblDe8U0xxkNCIpkYnVXItGDGt-zcuk2FlVJA~aKPcdsozyEwjWnXUlO6OeLoM~rHgxn-b9hIjTv6hhDQeIxPvtvRqjbGKnNWquK8ug__',
+            name: 'Main Pizza',
             price: 12900,
             discount: 10
         },
         {
-            img: 'https://s3-alpha-sig.figma.com/img/126b/c4b5/18352f27a399e723ba8fe9d39d12c27f?Expires=1708300800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=LXY9dSrzGcm1QxlNHlqqo~CGwnu0n-T~iaN6wIRb8NLLxwB32yXU4S7vJpXVuW3MnVR5N3xppYXh7SKmNQNJA827q~Smi4xVKb-DH3m9HK2pwYYwCjUQ5wlra2xBNTXAJuyTkTQkI1BxO9f0uxCT00cYoltYBLjzBYst46zoYgJUUVx0IBfgZQ1maM1n64bxWsrp2EyO62jRxiZ~dSgKx9K9kzisP66FRNVIsT6~jN33QpL9QDghrS7gRY3VT5VGMaeqlJqbd7BJ24dDIgl4~nUQbYu8KEhjnSQRtKuirYnicjHwMnX~DQtBfbP8NGJHKqjTCueDnB9av1vgl~dKEA__',
-            name: 'Зайрмаг',
+            img: 'https://s3-alpha-sig.figma.com/img/abab/8928/c4c79b15138c71b44dc8c2202844dd61?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DTrTA80HWzJDF3rYLaB1TFgP-qnOav0JNErTLLDO8TDgzew3O8Aq5hedyzXX7VmB19t90pF4gsAW8iDjkDvMf-CeLeeMT9VZ-p3axesLaOWF3FLUEYqR8lnj2nF-ZgV1KvZPOp6vqgJXl1DHDMCBp94ACdYd~anBWdxbIrD3l5dnaNDeDl1f6bwW~76GbwsLgMWJn4MqTq-v1qaNDVzG6k3cgsiMi0xoNstZO16NEDE8S55vMHYVzw-4Jposd-auXmZ9gijSzQVysx8j6LHCqUiD~LRvxN5QTObVFQOSw8~tkFuV-IitDpYZY7AX2RKTsDZDBf6eGoC34Lu0GsPssQ__',
+            name: 'Food Tart',
             price: 12900,
             discount: 10
         },
@@ -117,7 +117,7 @@ export default function MainFood() {
             <Stack sx={innerContainer}>
 
                 <Stack sx={disCategory}>
-                    <Title title={'Хямдралтай'} />
+                    <Title title={'Үндсэн хоол'} />
                     <Stack style={buttonClass}>
                         <Button sx={{ color: '#18BA51' }}>
                             Бүгдийг харах

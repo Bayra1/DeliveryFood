@@ -5,9 +5,9 @@ const food = express.Router();
 
 food.route('/postFood')
     .post(postFood)
-food.route('updateFood')
-    .put(updateFood)
-
-
+        
+food.route('/:id')
+    .patch(updateFood)
+    
 
 export { food }
