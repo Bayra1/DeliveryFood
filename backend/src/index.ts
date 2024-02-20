@@ -5,6 +5,7 @@ import bp from "body-parser";
 import { connectDatabase } from "./utils/database";
 import { user } from "./router/user";
 import { food } from "./router/food";
+import { category } from "./router/category";
 
 connectDatabase();
 
@@ -20,6 +21,7 @@ const start = () => {
 
     app.use('/user', user);
     app.use('/food', food);
+    app.use('/category', category)
 
     app.get('/', (_, res) => {
         res.status(200).send({
