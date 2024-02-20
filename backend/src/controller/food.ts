@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { foodModel } from "../model/food";
+import { userModel } from "../model/user";
 
 export const postFood = async (req: Request, res: Response) => {
     try {
@@ -17,9 +18,10 @@ export const postFood = async (req: Request, res: Response) => {
 export const updateFood = async (req: Request, res: Response) => {
     try {
         const id = req.params.id     
-          
+
         const { name, ingredient, discount } = req.body;
         const updatedFood = await foodModel.findByIdAndUpdate(id, { name, ingredient, discount });
+
         return res.status(200).send({
             success: true,
             updatedFood,
@@ -34,7 +36,9 @@ export const updateFood = async (req: Request, res: Response) => {
 export const deleteFood = async (req : Request, res : Response) => {
     try {
         const id = req.params.id
+
         const removedItem = await foodModel.findByIdAndDelete(id)
+
         if (!removedItem) {
             res.send({
                 success: false,
@@ -55,3 +59,19 @@ export const deleteFood = async (req : Request, res : Response) => {
         })
     }
 };
+
+export const retAllFoods = async (req: Request, res: Response) => {
+    try {
+        const allFoods = await userModel.find();
+        return res.status(200).send({
+            success: true,
+            allFoods
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            msg: "unavailable accessing all Foods"
+        })
+    }
+}

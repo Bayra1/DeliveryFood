@@ -4,12 +4,13 @@ const categorySchema = new mongoose.Schema({
     name : {
         type : String,
         midLength: 3,
-        require: true
+        required: true
     }, 
-    ref: 'food', 
-    foodIds : [{
+
+    foodIds : [{    
         type: mongoose.Schema.Types.ObjectId,
-        require : true
+        ref : 'food',
+        required : true,
     }]  
 });
 

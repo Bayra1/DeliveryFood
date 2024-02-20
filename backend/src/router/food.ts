@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteFood, postFood, updateFood } from "../controller/food";
+import { deleteFood, postFood, retAllFoods, updateFood } from "../controller/food";
 
 const food = express.Router();
 
@@ -11,6 +11,9 @@ food.route('/:id')
 
 food.route('/:id')
     .delete(deleteFood)
+ 
+food.route('/getAllfoods')
+    .get(retAllFoods)
 
 
 export { food }
