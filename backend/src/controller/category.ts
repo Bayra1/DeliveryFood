@@ -4,13 +4,8 @@ import { categoryModel } from "../model/category";
 export const createCategory = async (req : Request, res : Response) => {
     try {
         const {name, id} = req.body;
-
-        if (!name && !id) {
-            res.status(400).send({
-                success: false,
-                msg : "must be filled"
-            })
-        };
+        
+    
 
         const madeCategory = await categoryModel.create({name, id})
         return res.status(201).send({
@@ -20,7 +15,7 @@ export const createCategory = async (req : Request, res : Response) => {
 
     } catch (error) {
         console.log('error at creating Category', error);
-        res.status(400).send({
+        res.status(500).send({
             success: false,
             msg : error
         });

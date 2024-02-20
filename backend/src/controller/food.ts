@@ -54,4 +54,4 @@ export const deleteFood = async (req : Request, res : Response) => {
             msg : error
         })
     }
-}
+};
