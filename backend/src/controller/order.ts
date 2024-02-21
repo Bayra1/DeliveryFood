@@ -1,41 +1,24 @@
 import { Request, Response } from "express";
 import { categoryModel } from "../model/category";
 import mongoose from "mongoose";
+import { orderModel } from "../model/order";
 
-export const createCategory = async (req: Request, res: Response) => {
+export const createOrder = async (req: Request, res: Response) => {
     try {
-        const { name, foodIds } = req.body;
-        const foodIdsAsObjectIds = Array.isArray(foodIds)
-            ? foodIds.map((id: string) => new mongoose.Types.ObjectId(id))
-            : [new mongoose.Types.ObjectId(foodIds)];
-
-        const existentCategory = await categoryModel.findOne({ name });
-
-        if (existentCategory) {
-            existentCategory.foodIds.push(...foodIdsAsObjectIds);
-            const updatedCategory = await existentCategory.save();
-
-            console.log("Updated category:", updatedCategory);
-            return res.status(200).json(updatedCategory);
-
-        } else {
-
-            const madeCategory = await categoryModel.create({ name, foodIds: foodIdsAsObjectIds });
-            console.log("New category created:", madeCategory);
-
-            return res.status(201).send({
-                success: true,
-                madeCategory
-            });
-        }
+        const makeOrder = await orderModel.create(req.body)
+        // res.status(201).send({
+        //     success: true,
+        //     makeOrder
+        // })
+        res.status(201).json(makeOrder);
+        console.log('this is make order', makeOrder);
+        
     } catch (error) {
-        console.error('Error at creating Category', error);
-        return res.status(500).send({
-            success: false,
-            msg: error
-        });
+        console.log('failed to create a order', error);
+        res.status(400).json({ error });
     }
 };
+
 
 export const retAllCategories = async (_: Request, res: Response) => {
     try {
