@@ -9,10 +9,10 @@ food.route('/postFood')
 food.route('/:id')
     .patch(updateFood)
 
-food.route('/:id')
+food.route('/deleteFood')
     .delete(deleteFood)
  
-food.route('/getAllfoods')
+food.route('/retAllfoods')
     .get(retAllFoods)
 
 

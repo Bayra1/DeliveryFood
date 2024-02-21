@@ -4,33 +4,24 @@ import mongoose from "mongoose";
 
 export const createCategory = async (req: Request, res: Response) => {
     try {
-        const { name, foodIds } = req.body;
-        const foodIdsAsObjectIds = Array.isArray(foodIds)
-            ? foodIds.map((id: string) => new mongoose.Types.ObjectId(id))
-            : [new mongoose.Types.ObjectId(foodIds)];
+        const { name, foodId } = req.body;
 
-        const existentCategory = await categoryModel.findOne({ name });
+        const valid = Array.isArray(foodId);
 
-        if (existentCategory) {
-            existentCategory.foodIds.push(...foodIdsAsObjectIds);
-            const updatedCategory = await existentCategory.save();
+        const foodIdsAsObjectIds = valid
+            ? foodId.map((id: string) => new mongoose.Types.ObjectId(id))
+            : [new mongoose.Types.ObjectId(foodId)]
 
-            console.log("Updated category:", updatedCategory);
-            return res.status(200).json(updatedCategory);
+        const madeCategory = await categoryModel.create({ name, foodIds : foodIdsAsObjectIds })
+        
+        return res.status(201).send({
+            success: true,
+            madeCategory
+        });
 
-        } else {
-
-            const madeCategory = await categoryModel.create({ name, foodIds: foodIdsAsObjectIds });
-            console.log("New category created:", madeCategory);
-
-            return res.status(201).send({
-                success: true,
-                madeCategory
-            });
-        }
     } catch (error) {
-        console.error('Error at creating Category', error);
-        return res.status(500).send({
+        console.log('error at creating Category', error);
+        res.status(500).send({
             success: false,
             msg: error
         });
