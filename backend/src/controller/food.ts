@@ -2,16 +2,13 @@ import { Request, Response } from "express";
 import { foodModel } from "../model/food";
 import { userModel } from "../model/user";
 import { v2 as cloudinary } from "cloudinary";
+import { Cloud } from "../utils/cloudinary";
 
-cloudinary.config({
-    cloud_name :'dt0ik1smj',
-    api_key:'278966746938979',
-    api_secret:'h3rWMIaN1i2pDrYKfeX2KsKoC88'
-});
+Cloud();
 
 export const postFood = async (req: Request, res: Response) => {
     try {
-        
+        const resFromCloud = await cloudinary.uploader.upload(req.body)
     } catch (error) {
         res.status(400).send({ msg: error })
     }
