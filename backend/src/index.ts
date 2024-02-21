@@ -6,6 +6,7 @@ import { connectDatabase } from "./utils/database";
 import { user } from "./router/user";
 import { food } from "./router/food";
 import { category } from "./router/category";
+import { order } from "./router/order";
 
 connectDatabase();
 
@@ -21,7 +22,8 @@ const start = () => {
 
     app.use('/user', user);
     app.use('/food', food);
-    app.use('/category', category)
+    app.use('/category', category);
+    app.use('/order', order);
 
     app.get('/', (_, res) => {
         res.status(200).send({

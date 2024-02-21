@@ -1,14 +1,17 @@
 import { Request, Response } from "express";
 import { foodModel } from "../model/food";
 import { userModel } from "../model/user";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+    cloud_name :'dt0ik1smj',
+    api_key:'278966746938979',
+    api_secret:'h3rWMIaN1i2pDrYKfeX2KsKoC88'
+});
 
 export const postFood = async (req: Request, res: Response) => {
     try {
-        const createdFood = await foodModel.create(req.body)
-        return res.status(201).send({
-            success: true,
-            createdFood
-        })
+        
     } catch (error) {
         res.status(400).send({ msg: error })
     }
@@ -17,7 +20,7 @@ export const postFood = async (req: Request, res: Response) => {
 
 export const updateFood = async (req: Request, res: Response) => {
     try {
-        const id = req.params.id     
+        const id = req.params.id
 
         const { name, ingredient, discount } = req.body;
         const updatedFood = await foodModel.findByIdAndUpdate(id, { name, ingredient, discount });
@@ -27,13 +30,13 @@ export const updateFood = async (req: Request, res: Response) => {
             updatedFood,
         });
     } catch (error) {
-        res.status(400).send({
+        res.status(500).send({
             msg: error,
         });
     }
 };
 
-export const deleteFood = async (req : Request, res : Response) => {
+export const deleteFood = async (req: Request, res: Response) => {
     try {
         const id = req.params.id
 
@@ -43,19 +46,19 @@ export const deleteFood = async (req : Request, res : Response) => {
             res.send({
                 success: false,
                 msg: 'cannot find item'
-            })        
+            })
         } else {
             res.send({
                 success: true,
-                msg: 'item has been deleted successfully' 
-            })        
+                msg: 'item has been deleted successfully'
+            })
         }
 
     } catch (error) {
         console.log('cannot find', error);
-        res.status(404).send({
+        res.status(500).send({
             success: false,
-            msg : error
+            msg: error
         })
     }
 };

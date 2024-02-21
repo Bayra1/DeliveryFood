@@ -1,9 +1,20 @@
 import express from "express";
-import { createCategory } from "../controller/category";
+import { createCategory, deleteCategory, retAllCategories, updateCategory } from "../controller/category";
 
 const category = express.Router();
 
 category.route('/createCategory')
         .post(createCategory)
+
+category.route('/retAll')
+        .get(retAllCategories)
+
+category.route('/updateCatrgory/:id')
+        .put(updateCategory)
+        
+category.route('/deleteCategory')
+        .delete(deleteCategory)
+
+
 
 export { category }
