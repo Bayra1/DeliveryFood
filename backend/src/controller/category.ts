@@ -9,15 +9,31 @@ export const createCategory = async (req: Request, res: Response) => {
         const valid = Array.isArray(foodId);
 
         const foodIdsAsObjectIds = valid
-            ? foodId.map((id: string) => new mongoose.Types.ObjectId(id))
-            : [new mongoose.Types.ObjectId(foodId)]
+            ? foodId.map((id) => new mongoose.Types.ObjectId(id))
+            : [new mongoose.Types.ObjectId(foodId)];
 
-        const madeCategory = await categoryModel.create({ name, foodIds : foodIdsAsObjectIds })
+        const existingCategory = await categoryModel.findOne({ name }).populate('foodIds');
+
+        console.log("this is existingcategory", existingCategory);
         
-        return res.status(201).send({
-            success: true,
-            madeCategory
-        });
+
+        if (existingCategory) {
+            existingCategory.foodIds.push(...foodIdsAsObjectIds)
+            await existingCategory.save()
+
+            return res.status(200).json({
+                msg: "Category updated successfully",
+                updatedCategory: existingCategory
+            });
+        } else {
+            const newCategory = await categoryModel.create({ name, foodIds: foodIdsAsObjectIds });
+
+            return res.status(201).json({
+                msg: "Category created successfully",
+                newCategory
+            });
+        }
+
 
     } catch (error) {
         console.log('error at creating Category', error);
@@ -65,7 +81,7 @@ export const updateCategory = async (req: Request, res: Response) => {
 export const deleteCategory = async (req: Request, res: Response) => {
     try {
         const removedCategory = await categoryModel.findByIdAndDelete(req.params.id)
-        console.log("this is id");
+        console.log("this is id", req.params.id);
 
         if (!removedCategory) {
             return res.status(404).send({

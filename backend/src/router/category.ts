@@ -12,7 +12,7 @@ category.route('/retAll')
 category.route('/updateCatrgory/:id')
         .put(updateCategory)
         
-category.route('/deleteCategory')
+category.route('/deleteCategory/:id')
         .delete(deleteCategory)
 
 
