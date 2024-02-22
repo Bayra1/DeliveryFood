@@ -36,7 +36,7 @@ export default function Deliveries() {
                 {
                     data.map((element, i) => {
                         return (
-                            <Card key={i} sx={{ minWidth: 275 }}>
+                            <Card key={i} sx={{borderWidth:1 }}>
 
                                 <CardContent>
                                     <element.icon sx={{ color: "green" }} />

@@ -23,8 +23,8 @@ export default function Home() {
     <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'} height="fit-content">
       <Navbar onClick={handleModal} />
       {modal && <Modal />}
-      {/* <HomePage/> */}
-      <FoodCrud/>
+      <HomePage/>
+      {/* <FoodCrud/> */}
       {/* <SignUp/> */}
       {/* <Footer/> */}
     </Box>

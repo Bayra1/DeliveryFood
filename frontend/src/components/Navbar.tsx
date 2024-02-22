@@ -20,25 +20,30 @@ const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС']
 function Navbar({ onClick }: any) {
   const [searchText, setSearchText] = useState<String>('');
   const [isIngre, setIsIngre] = useState(false)
+  const [isActive, setIsActive] = useState(0)
   const router = useRouter();
 
-  const NavigateIng = () => {
-    router.push('/Ingredient')
+  const handleColor = (index: number) => {
+    setIsActive(index)
   }
+
+  const NavigateCat = () => {
+    router.push('/Category')
+  };
 
   const NavigateHome = () => {
     router.push('/Home')
-  }
+  };
 
   const NavigateDelZone = () => {
     router.push('/DeliveryZone')
-  }
+  };
 
   const handleSearch = () => {
     console.log('Searching for:', searchText);
   };
 
-  const handleInputChange = (event : any) => {
+  const handleInputChange = (event: any) => {
     setSearchText(event.target.value);
 
   };
@@ -48,26 +53,26 @@ function Navbar({ onClick }: any) {
   }
 
   return (
-    <AppBar sx={{ backgroundColor: "white", boxShadow: 0,  }} position="static">
-      <Container  style={containerStyle}>
+    <AppBar sx={{ backgroundColor: "white", boxShadow: 0, }} position="static">
+      <Container style={containerStyle}>
         <Toolbar disableGutters >
           <PineconeLogo />
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', } }}>
             {pages.map((page, index) => (
               <Button
-                style={{ color: isIngre ? 'green' : 'black' }}
+                style={{ color: index === isActive ? '#18BA51' : 'black' }}
                 onClick={() => {
                   if (index === 0) {
                     NavigateHome()
                   } else if (index === 1) {
-                    NavigateIng()
+                    NavigateCat()
                   } else if (index === 2) {
                     NavigateDelZone()
                   }
+                  handleColor(index)
                 }}
-                key={page}
-                sx={{ my: 2, color: 'black', display: 'block' }}
+                key={index}
               >
                 {page}
               </Button>
