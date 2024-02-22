@@ -21,7 +21,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 
-const backEnd = "http://localhost:8000/user/signUp"
+const backEnd = "http://localhost:8001/user/signUp"
 
 export default function SignUp() {
     const [name, setName] = useState<String>('')

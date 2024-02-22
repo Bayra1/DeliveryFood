@@ -7,13 +7,11 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
 
-    orderNumber: Number,
-    foods: {
+    foods: [{
         type: mongoose.Types.ObjectId,
         ref: 'food',
         required: true
-    },
-    totalPrice: Number,
+    }],
 
     process: {
         type: String,
@@ -21,16 +19,18 @@ const orderSchema = new mongoose.Schema({
         default: 'progress'
     },
 
+    Payment: {
+        type: String,
+        enum: ['Paid', 'Not Paid'],
+        default: 'Not Paid'
+    },
+
+    orderNumber: Number,
     createdDate: Date,
     district: String,
     Khoroo: String,
     Apartment: String,
-
-    Payment: {
-        type: String,
-        enum: ['Paid', 'Not Paid'],
-        default: 'Not PAid'
-    }
+    totalPrice: Number   
 });
 
 const orderModel = mongoose.model('Order', orderSchema);

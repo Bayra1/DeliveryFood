@@ -25,7 +25,6 @@ export const postFood = async (req: Request, res: Response) => {
     }
 };
 
-
 export const updateFood = async (req: Request, res: Response) => {
     try {
         const id = req.params.id
@@ -86,4 +85,4 @@ export const retAllFoods = async (req: Request, res: Response) => {
             msg: "unavailable accessing all Foods"
         })
     }
-}
+};
