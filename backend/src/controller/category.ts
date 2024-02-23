@@ -4,19 +4,18 @@ import mongoose from "mongoose";
 
 export const createCategory = async (req: Request, res: Response) => {
     try {
-        const { name, foodId } = req.body;
+        const { name, foodIds } = req.body;
 
-        const valid = Array.isArray(foodId);
+        const valid = Array.isArray(foodIds);
 
         const foodIdsAsObjectIds = valid
-            ? foodId.map((id) => new mongoose.Types.ObjectId(id))
-            : [new mongoose.Types.ObjectId(foodId)];
+            ? foodIds.map((id) => new mongoose.Types.ObjectId(id))
+            : [new mongoose.Types.ObjectId(foodIds)];
 
-        const existingCategory = await categoryModel.findOne({ name }).populate('foodIds');
+        const existingCategory = await categoryModel.findOne({ name })
 
         console.log("this is existingcategory", existingCategory);
         
-
         if (existingCategory) {
             existingCategory.foodIds.push(...foodIdsAsObjectIds)
             await existingCategory.save()
@@ -46,7 +45,7 @@ export const createCategory = async (req: Request, res: Response) => {
 
 export const retAllCategories = async (_: Request, res: Response) => {
     try {
-        const allCategories = await categoryModel.find();
+        const allCategories = await categoryModel.find().populate('foodIds');
         return res.status(200).send({
             success: true,
             allCategories

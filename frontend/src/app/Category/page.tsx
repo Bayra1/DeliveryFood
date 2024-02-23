@@ -3,8 +3,6 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@mui/material";
 import { Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import CardActions from '@mui/material/CardActions';
-import CardMedia from '@mui/material/CardMedia';
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import CardContent from '@mui/material/CardContent';
@@ -44,7 +42,7 @@ const styleName = {
 };
 
 const buttonStyle = {
-    width: '280.5px',
+    width: '430px',
     height: '43px',
     padding: '8px 16px',
     borderRadius: '8px',
@@ -56,43 +54,65 @@ const buttonStyle = {
     borderColor: '#D6D8DB'
 };
 
-const filtersName = ['BreaksFast', 'Soup', 'Main Course', 'Desserts'];
+interface foodItem {
+    image: string;
+    name: string;
+    discount: number;
+    price: number;
+    ingredient: string
+};
+
+interface categoryType {
+    name: string
+}
 
 export default function MenuCategory() {
-    const [selectedCategory, setSelectedCategory] = useState(filtersName[0]);
+    const [selectedCategory, setSelectedCategory] = useState();
     const [isActive, setIsActive] = useState(0);
     const [filteredData, setFilteredData] = useState([])
+    const [foodCards, setFoodCards] = useState<foodItem[]>([])
 
     const handleColor = (index: number) => {
-        setSelectedCategory(filtersName[index]);
         setIsActive(index);
     };
+
+   
 
     const manageData = async () => {
         try {
             const response = await axios.get(backEnd);
-            // console.log('Response from backend:', response.data.allCategories);
+            const allCategories = response.data.allCategories
 
-            const filteredData = response.data.allCategories.filter((category: { name: string }) => category.name === selectedCategory)
-            setFilteredData(filteredData)
-            console.log('Filtered data:', filteredData);
+            const filteredData = selectedCategory
+                ? allCategories.filter((category: { name: string }) => category.name === selectedCategory)
+                : allCategories
+
+
+            setFilteredData(filteredData);
+            // console.log('this is ', filteredData)
+
+            localStorage.setItem('filteredData', JSON.stringify(filteredData));
+            console.log('Filtered data after json:', filteredData);
+
+            const foodCards = filteredData.length > 0 ? filteredData.foodIds[0] : [];
+            setFoodCards(foodCards);
+
         } catch (error) {
-            console.log('Failed to fetch data', error);
+            // console.log('Failed to fetch data', error);
         }
     };
-
+   console.log(foodCards);
     useEffect(() => {
         manageData();
     }, [selectedCategory]);
-
-
     return (
         <Box>
             <Navbar />
             <Stack mt={10} width={'100%'} justifyContent={'center'} alignItems={'center'}>
 
                 <Box width={'80%'} sx={{ display: 'flex' }} justifyContent={'space-between'}>
-                    {filtersName.map((element, index) => {
+                    {filteredData.map((element, index) => {
+
                         return (
                             <Button
                                 style={{ ...buttonStyle, backgroundColor: index === isActive ? "#18BA51" : "white" }}
@@ -102,39 +122,37 @@ export default function MenuCategory() {
                                     manageData()
                                 }}
                             >
-                                {element}
+                                {(element as {name: string}).name}                                
                             </Button>
                         )
                     })}
                 </Box>
 
                 <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} gap={16}>
-                {filteredData.map((category, index) => (
-                    <Card key={index} sx={{ maxWidth: 345 }}>
-                        <CardMedia
-                            component="img"
-                            alt={category.name}
-                            height="140"
-                            image={category.image} // Assuming each category has an image property
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {category.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {/* Display additional information about the category */}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-                ))}
-                    
+                    {
+                        foodCards.map((item, i) => {
+                            // console.log("this is foodCards", foodCards);
+                            
+                            return (
+                                <Card key={i} sx={{ borderWidth: 1 }}>
+
+                                    <CardContent>
+                                       <img src={item.image} alt="" />
+                                    </CardContent>
+                                    <Typography>
+                                        {item.name}
+                                    </Typography>
+                                    <Typography>
+                                        {item.discount}
+                                    </Typography>
+
+                                </Card>
+                            )
+                        })
+                    }
                 </Stack>
 
             </Stack>
         </Box>
     )
-}
+};

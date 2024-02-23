@@ -1,35 +1,23 @@
-import React, { useState } from 'react';
+'use client'
+import { useState } from "react";
+import { createContext } from "react";
 
-const YourComponent = () => {
-  const [inputValue, setInputValue] = useState('');
+export const FoodContext = createContext({ foodData:"", addToCart: () => {}, updateFoodData:() => {} });
+export const FoodProvider = ({ children }:any) => {
 
-  const handleInputChange = (event :  any) => {
-    setInputValue(event.target.value);
-  };
+    const [foodData, setFoodData] = useState<any>([]);
 
-  const handleSubmit = () => {
+    const updateFoodData: any = (updatedFoodData:any) => {
+        setFoodData(updatedFoodData);
+      };
+      
+    const addToCart: any = (foodItem:any) => {
+        setFoodData([...foodData, foodItem]);
+    };
 
-    console.log('Input value:', inputValue);
-  };
-
-  const buttonClass = inputValue !== '' ? 'active' : 'inactive';
-
-  return (
-    <div>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Enter text"
-      />
-      <button
-        onClick={handleSubmit}
-        className={buttonClass}
-      >
-        Submit
-      </button>
-    </div>
-  );
+    return (
+        <FoodContext.Provider value={{ foodData, addToCart ,updateFoodData }}>
+            {children}
+        </FoodContext.Provider>
+    );
 };
-
-export default YourComponent;
