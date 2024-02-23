@@ -76,8 +76,7 @@ export default function MenuCategory() {
         setIsActive(index);
     };
 
-   
-
+//    log soma chan
     const manageData = async () => {
         try {
             const response = await axios.get(backEnd);
