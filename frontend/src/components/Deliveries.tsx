@@ -1,4 +1,4 @@
-import { ImportContacts, AccessTime} from '@mui/icons-material';
+import { ImportContacts, AccessTime } from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import { Typography } from "@mui/material";
@@ -36,7 +36,7 @@ export default function Deliveries() {
                 {
                     data.map((element, i) => {
                         return (
-                            <Card key={i} sx={{borderWidth:1 }}>
+                            <Card key={i} sx={{ borderWidth: 1 }}>
 
                                 <CardContent>
                                     <element.icon sx={{ color: "green" }} />
@@ -55,4 +55,5 @@ export default function Deliveries() {
             </Box>
         </Box>
     )
-}
+};
+
