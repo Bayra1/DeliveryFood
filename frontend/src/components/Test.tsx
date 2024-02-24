@@ -1,12 +1,13 @@
-import { useContext } from "react";
-import { foodContext } from "./Context";
+import React, { useContext } from 'react'
+import { foodContext } from './Context'
 
-function test() {
-    const {foodData} = useContext(foodContext)
-    console.log("this is foodData", foodData);
+function Test() {
+    const { foodData } = useContext(foodContext);
+
+console.log(foodData)
+  return (
+    <div>Test</div>
+  )
 }
-return (
-    <div>
-        test kk
-    </div>
-)
+
+export default Test

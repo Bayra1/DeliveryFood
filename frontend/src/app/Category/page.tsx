@@ -3,42 +3,42 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@mui/material";
 import { Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { CardActionArea } from "@mui/material";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import CardContent from '@mui/material/CardContent';
-import Card from '@mui/material/Card';
 import axios from "axios";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import { CSSProperties } from "styled-components";
 
 const backEnd = "http://localhost:8001/category/retAll"
 
-const styleDiscount = {
-    width: '66px',
-    height: '27px',
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
+const styleDiscount: CSSProperties = {
+    width: '70px',
+    height: '35px',
     fontWeight: 400,
     fontSize: '18px',
-    lineHeight: '27px',
-    textDecorationLine: 'line-through',
-    color: '#27272',
-    flex: 'none',
-    order: 1,
-    flexGrow: 0,
+    color: '#fff',
+    backgroundColor: "#18BA51",
+    textAlign: "center",
+    borderRadius: "16px",
+    borderStyle: "solid",
+    borderWidth: "1px",
+    borderColor: "#27272",
+    position: "absolute",
+    top: "16px",
+    left: "197px",
+    padding: "4px 16px",
 };
 
 const styleName = {
     width: '282px',
     height: '27px',
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: '18px',
     lineHeight: '27px',
     color: '#000000',
-    flex: 'none',
-    order: 0,
-    alignSelf: 'stretch',
-    flexGrow: 0,
 };
 
 const buttonStyle = {
@@ -52,6 +52,20 @@ const buttonStyle = {
     fontWeight: 500,
     fontSize: '18px',
     borderColor: '#D6D8DB'
+};
+
+const stylePrice = {
+    width: '69px',
+    height: '27px',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: '18px',
+    lineHeight: '27px',
+    color: '#18BA51',
+    flex: 'none',
+    order: 0,
+    flexGrow: 0,
 };
 
 interface foodItem {
@@ -98,15 +112,14 @@ export default function MenuCategory() {
             localStorage.setItem('filteredData', JSON.stringify(filteredData));
             // console.log('Filtered data after json:', filteredData);
 
-            // const foodCards = filteredData.length > 0 ? filteredData.foodIds[0] : [];
             const foodCards = filteredData.length > 0 ? filteredData[0].foodIds : [];
             setFoodCards(foodCards);
-
+            console.log("this is foodCards", foodCards);
+                    
         } catch (error) {
-            // console.log('Failed to fetch data', error);
+            console.log('Failed to fetch data', error);
         }
     };
-    //    console.log(foodCards);
     useEffect(() => {
         manageData();
     }, [selectedCategory]);
@@ -136,32 +149,30 @@ export default function MenuCategory() {
                 </Box>
 
                 <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"80%"} gap={2}>
-                    {
-                        foodCards.slice(0, 5).map((item, i) => {
-                            // console.log("this is foodCards", foodCards);
-
-                            return (
-                                <Card key={i} sx={{height:"fit-content"}}>
+                    {foodCards.slice(1, 5).map((item, i) => (                        
+                            <Card key={i} sx={{ maxWidth: 345 }}>
+                                <CardActionArea>
+                                    <Stack>
+                                        <CardMedia
+                                            sx={{ width: "382px", height: "200px",  }}
+                                            component="img"
+                                            image={item.image}
+                                            alt="food item"
+                                        />
+                                        <Typography style={styleDiscount}>{item.discount}%</Typography>
+                                    </Stack>
 
                                     <CardContent>
-                                        <Stack height={"186px"}>
-                                            <img src={item.image} alt="" />
+                                        <Typography style={styleName}>{item.name}</Typography>
+                                        <Stack mt={1} flexDirection={"row"}>
+                                            <Typography style={stylePrice}>{item.price}₮</Typography>
+                                            <Typography>{item.price - (item.price * (item.discount / 100))}₮</Typography>
                                         </Stack>
-
-                                        <Typography>
-                                            {item.name}
-                                        </Typography>
-                                        <Typography>
-                                            {item.discount}
-                                        </Typography>
                                     </CardContent>
-
-                                </Card>
-                            )
-                        })
-                    }
+                                </CardActionArea>
+                            </Card>
+                        ))}
                 </Stack>
-
             </Stack>
         </Box>
     )
