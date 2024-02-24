@@ -1,23 +1,12 @@
-'use client'
-import { useState } from "react";
-import { createContext } from "react";
+import { useContext } from "react";
+import { foodContext } from "./Context";
 
-export const FoodContext = createContext({ foodData:"", addToCart: () => {}, updateFoodData:() => {} });
-export const FoodProvider = ({ children }:any) => {
-
-    const [foodData, setFoodData] = useState<any>([]);
-
-    const updateFoodData: any = (updatedFoodData:any) => {
-        setFoodData(updatedFoodData);
-      };
-      
-    const addToCart: any = (foodItem:any) => {
-        setFoodData([...foodData, foodItem]);
-    };
-
-    return (
-        <FoodContext.Provider value={{ foodData, addToCart ,updateFoodData }}>
-            {children}
-        </FoodContext.Provider>
-    );
-};
+function test() {
+    const {foodData} = useContext(foodContext)
+    console.log("this is foodData", foodData);
+}
+return (
+    <div>
+        test kk
+    </div>
+)

@@ -67,7 +67,7 @@ interface categoryType {
 }
 
 export default function MenuCategory() {
-    const [selectedCategory, setSelectedCategory] = useState();
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [isActive, setIsActive] = useState(0);
     const [filteredData, setFilteredData] = useState([])
     const [foodCards, setFoodCards] = useState<foodItem[]>([])
@@ -76,31 +76,37 @@ export default function MenuCategory() {
         setIsActive(index);
     };
 
-//    log soma chan
+    const getSelectedCategory = (event: any) => {
+        setSelectedCategory(event.target.value)
+    }
+
     const manageData = async () => {
         try {
             const response = await axios.get(backEnd);
             const allCategories = response.data.allCategories
 
+
             const filteredData = selectedCategory
                 ? allCategories.filter((category: { name: string }) => category.name === selectedCategory)
                 : allCategories
 
+            console.log("this is selected category", selectedCategory);
 
             setFilteredData(filteredData);
-            // console.log('this is ', filteredData)
+            console.log('this is ', filteredData)
 
             localStorage.setItem('filteredData', JSON.stringify(filteredData));
-            console.log('Filtered data after json:', filteredData);
+            // console.log('Filtered data after json:', filteredData);
 
-            const foodCards = filteredData.length > 0 ? filteredData.foodIds[0] : [];
+            // const foodCards = filteredData.length > 0 ? filteredData.foodIds[0] : [];
+            const foodCards = filteredData.length > 0 ? filteredData[0].foodIds : [];
             setFoodCards(foodCards);
 
         } catch (error) {
             // console.log('Failed to fetch data', error);
         }
     };
-   console.log(foodCards);
+    //    console.log(foodCards);
     useEffect(() => {
         manageData();
     }, [selectedCategory]);
@@ -109,41 +115,46 @@ export default function MenuCategory() {
             <Navbar />
             <Stack mt={10} width={'100%'} justifyContent={'center'} alignItems={'center'}>
 
-                <Box width={'80%'} sx={{ display: 'flex' }} justifyContent={'space-between'}>
+                <Box width={'80%'} sx={{ display: 'flex' }} gap={2} justifyContent={'space-between'}>
                     {filteredData.map((element, index) => {
 
                         return (
                             <Button
                                 style={{ ...buttonStyle, backgroundColor: index === isActive ? "#18BA51" : "white" }}
                                 key={index}
+                                value={selectedCategory}
+                                onChange={getSelectedCategory}
                                 onClick={() => {
                                     handleColor(index)
                                     manageData()
                                 }}
                             >
-                                {(element as {name: string}).name}                                
+                                {(element as { name: string }).name}
                             </Button>
                         )
                     })}
                 </Box>
 
-                <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} gap={16}>
+                <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"80%"} gap={2}>
                     {
-                        foodCards.map((item, i) => {
+                        foodCards.slice(0, 5).map((item, i) => {
                             // console.log("this is foodCards", foodCards);
-                            
+
                             return (
-                                <Card key={i} sx={{ borderWidth: 1 }}>
+                                <Card key={i} sx={{height:"fit-content"}}>
 
                                     <CardContent>
-                                       <img src={item.image} alt="" />
+                                        <Stack height={"186px"}>
+                                            <img src={item.image} alt="" />
+                                        </Stack>
+
+                                        <Typography>
+                                            {item.name}
+                                        </Typography>
+                                        <Typography>
+                                            {item.discount}
+                                        </Typography>
                                     </CardContent>
-                                    <Typography>
-                                        {item.name}
-                                    </Typography>
-                                    <Typography>
-                                        {item.discount}
-                                    </Typography>
 
                                 </Card>
                             )
