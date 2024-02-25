@@ -1,16 +1,16 @@
 'use client'
-import Navbar from "@/components/Navbar";
 import { Button } from "@mui/material";
 import { Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { CardActionArea } from "@mui/material";
+import { CSSProperties } from "styled-components";
+import Navbar from "@/components/Navbar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import CardContent from '@mui/material/CardContent';
 import axios from "axios";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { CSSProperties } from "styled-components";
 
 const backEnd = "http://localhost:8001/category/retAll"
 
@@ -54,7 +54,7 @@ const buttonStyle = {
     borderColor: '#D6D8DB'
 };
 
-const stylePrice = {
+const styleDiscountedPrice = {
     width: '69px',
     height: '27px',
     fontFamily: 'Poppins',
@@ -77,45 +77,49 @@ interface foodItem {
 };
 
 interface categoryType {
+    foodIds: foodItem[];
     name: string
 }
 
 export default function MenuCategory() {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [isActive, setIsActive] = useState(0);
-    const [filteredData, setFilteredData] = useState([])
-    const [foodCards, setFoodCards] = useState<foodItem[]>([])
+    const [filteredData, setFilteredData] = useState<categoryType[]>([]);
+    const [foodCards, setFoodCards] = useState<foodItem[]>([]);
 
     const handleColor = (index: number) => {
+        console.log("isActive:", index);
         setIsActive(index);
     };
+    
 
-    const getSelectedCategory = (event: any) => {
-        setSelectedCategory(event.target.value)
-    }
+    const handleButtonClick = async (categoryName: any) => {
+        setSelectedCategory(categoryName);
+    };
 
     const manageData = async () => {
         try {
             const response = await axios.get(backEnd);
             const allCategories = response.data.allCategories
-
-
+            console.log("isAllCategories", allCategories);
+            
+            // console.log("this is selected category", selectedCategory);
             const filteredData = selectedCategory
                 ? allCategories.filter((category: { name: string }) => category.name === selectedCategory)
                 : allCategories
+                console.log(selectedCategory);
+                
 
-            console.log("this is selected category", selectedCategory);
-
+                
             setFilteredData(filteredData);
-            console.log('this is ', filteredData)
 
             localStorage.setItem('filteredData', JSON.stringify(filteredData));
             // console.log('Filtered data after json:', filteredData);
 
             const foodCards = filteredData.length > 0 ? filteredData[0].foodIds : [];
             setFoodCards(foodCards);
-            console.log("this is foodCards", foodCards);
-                    
+            // console.log("this is foodCards", foodCards);
+
         } catch (error) {
             console.log('Failed to fetch data', error);
         }
@@ -130,15 +134,15 @@ export default function MenuCategory() {
 
                 <Box width={'80%'} sx={{ display: 'flex' }} gap={2} justifyContent={'space-between'}>
                     {filteredData.map((element, index) => {
-
+                        console.log(filteredData);
                         return (
                             <Button
                                 style={{ ...buttonStyle, backgroundColor: index === isActive ? "#18BA51" : "white" }}
                                 key={index}
-                                value={selectedCategory}
-                                onChange={getSelectedCategory}
+                                value={selectedCategory}                                
                                 onClick={() => {
                                     handleColor(index)
+                                    handleButtonClick(element.name)
                                     manageData()
                                 }}
                             >
@@ -149,29 +153,34 @@ export default function MenuCategory() {
                 </Box>
 
                 <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"80%"} gap={2}>
-                    {foodCards.slice(1, 5).map((item, i) => (                        
-                            <Card key={i} sx={{ maxWidth: 345 }}>
-                                <CardActionArea>
-                                    <Stack>
-                                        <CardMedia
-                                            sx={{ width: "382px", height: "200px",  }}
-                                            component="img"
-                                            image={item.image}
-                                            alt="food item"
-                                        />
-                                        <Typography style={styleDiscount}>{item.discount}%</Typography>
-                                    </Stack>
+                    {foodCards.slice(0, 4).map((item, i) => (
+                        <Card key={i} sx={{ maxWidth: 345 }}>
+                            <CardActionArea>
+                                <Stack>
+                                    <CardMedia
+                                        sx={{ width: "382px", height: "200px", }}
+                                        component="img"
+                                        image={item.image}
+                                        alt="food item"
+                                    />
+                                    <Typography style={styleDiscount}>{item.discount}%</Typography>
+                                </Stack>
 
-                                    <CardContent>
-                                        <Typography style={styleName}>{item.name}</Typography>
-                                        <Stack mt={1} flexDirection={"row"}>
-                                            <Typography style={stylePrice}>{item.price}₮</Typography>
-                                            <Typography>{item.price - (item.price * (item.discount / 100))}₮</Typography>
-                                        </Stack>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        ))}
+                                <CardContent>
+                                    <Typography style={styleName}>{item.name}</Typography>
+                                    <Stack mt={1} flexDirection={"row"}>
+                                        <Typography style={styleDiscountedPrice}>
+                                            {item.discount > 0
+                                                ? `${item.price - (item.price * (item.discount / 100))}₮`
+                                                : `${item.price}`
+                                            }
+                                        </Typography>
+                                        <Typography sx={{ textDecorationLine: 'line-through' }}>{item.price}₮</Typography>
+                                    </Stack>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    ))}
                 </Stack>
             </Stack>
         </Box>
