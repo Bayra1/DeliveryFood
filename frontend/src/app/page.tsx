@@ -6,7 +6,6 @@ import Navbar from "../components/Navbar";
 import Modal from '@/components/Modal';
 import Login from '@/components/Login';
 import Footer from '@/components/Footer';
-import YourComponent from '@/components/Test';
 import HomePage from '@/components/Home';
 import FoodCrud from '@/components/FoodCrud';
 

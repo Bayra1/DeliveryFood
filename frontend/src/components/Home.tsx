@@ -9,7 +9,6 @@ import DiscountCards from "./Discount";
 import MainFood from "./MainFood";
 import Navbar from "./Navbar";
 import BackPicture from "./icons/bckImg";
-import Test from "./Test";
 
 export default function HomePage() {
     return (
@@ -34,8 +33,7 @@ export default function HomePage() {
             <Deliveries />
             <DiscountCards />
             <MainFood />
-            <Footer />
-            <Test/>
+            <Footer />            
         </Box>
     );
 }

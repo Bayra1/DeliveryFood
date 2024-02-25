@@ -57,15 +57,10 @@ const buttonStyle = {
 const styleDiscountedPrice = {
     width: '69px',
     height: '27px',
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
     fontWeight: 600,
     fontSize: '18px',
     lineHeight: '27px',
     color: '#18BA51',
-    flex: 'none',
-    order: 0,
-    flexGrow: 0,
 };
 
 interface foodItem {
@@ -82,17 +77,16 @@ interface categoryType {
 }
 
 export default function MenuCategory() {
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState();
     const [isActive, setIsActive] = useState(0);
     const [filteredData, setFilteredData] = useState<categoryType[]>([]);
     const [foodCards, setFoodCards] = useState<foodItem[]>([]);
 
     const handleColor = (index: number) => {
-        console.log("isActive:", index);
+        // console.log("isActive:", index);
         setIsActive(index);
     };
     
-
     const handleButtonClick = async (categoryName: any) => {
         setSelectedCategory(categoryName);
     };
@@ -100,33 +94,29 @@ export default function MenuCategory() {
     const manageData = async () => {
         try {
             const response = await axios.get(backEnd);
-            const allCategories = response.data.allCategories
-            console.log("isAllCategories", allCategories);
+            const allCategories = response.data.allCategories;
             
-            // console.log("this is selected category", selectedCategory);
-            const filteredData = selectedCategory
-                ? allCategories.filter((category: { name: string }) => category.name === selectedCategory)
-                : allCategories
-                console.log(selectedCategory);
-                
-
-                
+            let filteredData = allCategories;
+            
+            if (selectedCategory) {                
+                filteredData = allCategories.filter((category: { name: string }) => category.name === selectedCategory);
+            }
+    
             setFilteredData(filteredData);
-
-            localStorage.setItem('filteredData', JSON.stringify(filteredData));
-            // console.log('Filtered data after json:', filteredData);
-
+    
             const foodCards = filteredData.length > 0 ? filteredData[0].foodIds : [];
             setFoodCards(foodCards);
-            // console.log("this is foodCards", foodCards);
-
+    
         } catch (error) {
             console.log('Failed to fetch data', error);
         }
     };
+    
+
     useEffect(() => {
         manageData();
     }, [selectedCategory]);
+
     return (
         <Box>
             <Navbar />
@@ -134,12 +124,11 @@ export default function MenuCategory() {
 
                 <Box width={'80%'} sx={{ display: 'flex' }} gap={2} justifyContent={'space-between'}>
                     {filteredData.map((element, index) => {
-                        console.log(filteredData);
+                        // console.log(filteredData);
                         return (
                             <Button
                                 style={{ ...buttonStyle, backgroundColor: index === isActive ? "#18BA51" : "white" }}
-                                key={index}
-                                value={selectedCategory}                                
+                                key={index}                                                              
                                 onClick={() => {
                                     handleColor(index)
                                     handleButtonClick(element.name)
@@ -160,8 +149,7 @@ export default function MenuCategory() {
                                     <CardMedia
                                         sx={{ width: "382px", height: "200px", }}
                                         component="img"
-                                        image={item.image}
-                                        alt="food item"
+                                        image={item.image}                                        
                                     />
                                     <Typography style={styleDiscount}>{item.discount}%</Typography>
                                 </Stack>
