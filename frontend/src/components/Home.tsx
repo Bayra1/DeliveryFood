@@ -5,7 +5,7 @@ import BigFood from "./assets/Group 534.png";
 import FoodSvg from "../components/Svg/FoodSvg";
 import Deliveries from "./Deliveries";
 import Footer from "./Footer";
-import DiscountCards from "./Discount";
+import DiscountCards from "./SaleFoods";
 import MainFood from "./MainFood";
 import Navbar from "./Navbar";
 import BackPicture from "./icons/bckImg";

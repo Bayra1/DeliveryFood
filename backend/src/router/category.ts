@@ -15,6 +15,4 @@ category.route('/updateCatrgory/:id')
 category.route('/deleteCategory/:id')
         .delete(deleteCategory)
 
-
-
 export { category }

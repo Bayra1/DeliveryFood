@@ -4,10 +4,7 @@ import * as React from 'react';
 import { Box } from '@mui/material';
 import Navbar from "../components/Navbar";
 import Modal from '@/components/Modal';
-import Login from '@/components/Login';
-import Footer from '@/components/Footer';
 import HomePage from '@/components/Home';
-import FoodCrud from '@/components/FoodCrud';
 
 export default function Home() {
   const [modal, setModal] = React.useState(false);
@@ -23,9 +20,6 @@ export default function Home() {
       <Navbar onClick={handleModal} />
       {modal && <Modal />}
       <HomePage/>
-      {/* <FoodCrud/> */}
-      {/* <SignUp/> */}
-      {/* <Footer/> */}
     </Box>
   );
 }

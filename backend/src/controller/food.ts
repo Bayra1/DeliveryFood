@@ -15,7 +15,8 @@ export const postFood = async (req: Request, res: Response) => {
             ingredient: req.body.ingredient,
             price: req.body.price,
             image: resFromCloud.secure_url,
-            discount: req.body.discount
+            discount: req.body.discount,
+            sale: req.body.sale
         });
         res.status(201).json(makeFood)
         console.log("make food is here:", makeFood);
