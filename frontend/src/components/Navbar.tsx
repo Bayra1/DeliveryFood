@@ -19,7 +19,7 @@ const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС']
 
 function Navbar({ onClick }: any) {
   const [searchText, setSearchText] = useState<String>('');
-  const [isIngre, setIsIngre] = useState(false)
+  // const [isIngre, setIsIngre] = useState(false)
   const [isActive, setIsActive] = useState(0)
   const router = useRouter();
 
@@ -28,7 +28,7 @@ function Navbar({ onClick }: any) {
   }
 
   const NavigateCat = () => {
-    router.push('/Category')
+    router.push('/Menu')
   };
 
   const NavigateHome = () => {
@@ -63,6 +63,7 @@ function Navbar({ onClick }: any) {
               <Button
                 style={{ color: index === isActive ? '#18BA51' : 'black' }}
                 onClick={() => {
+                  handleColor(index)
                   if (index === 0) {
                     NavigateHome()
                   } else if (index === 1) {
@@ -70,7 +71,6 @@ function Navbar({ onClick }: any) {
                   } else if (index === 2) {
                     NavigateDelZone()
                   }
-                  handleColor(index)
                 }}
                 key={index}
               >

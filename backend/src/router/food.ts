@@ -15,5 +15,4 @@ food.route('/deleteFood')
 food.route('/retAllfoods')
     .get(retAllFoods)
 
-
 export { food }
