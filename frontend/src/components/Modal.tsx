@@ -13,7 +13,7 @@ import VisEyeIcon from '@mui/icons-material/VisibilityOutlined';
 import OffEyeIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const backEnd = "http://localhost:8001/user/login"
 
@@ -28,20 +28,20 @@ export default function Modal() {
 
     const CloseModal = () => {
         setOpen(false)
-    }
+    };
 
     const managePassword = () => {
         setIsPassword(!isPassword)
-    }
+    };
 
     const manageInputChange = (event: any) => {
         setEmail(event.target.value);
         setButtonClass(event.target.value !== '' ? 'active' : 'inactive')
-    }
+    };
 
     const navigateSingUp = () => {
         router.push('/SignUp')
-    }
+    };
 
     const checkingUser = async () => {
         try {
@@ -49,31 +49,26 @@ export default function Modal() {
                 email,
                 password,
             });
+            
             const jwtToken = response.data.token;
-            // console.log(jwtToken, "this is JWT token");
-            const decodedToken = jwt.decode(jwtToken);
-            // console.log(decodedToken, "decoded token");
-
-            if (decodedToken) {
+            const decodedToken = jwt.decode(jwtToken) as JwtPayload;
+            
+            if (decodedToken && decodedToken.desiredUser) {
                 const existingEmail = decodedToken.desiredUser.email;
-                console.log(existingEmail, "this is existingEmail");                
+                // const existingPassword = decodedToken.desiredUser.password;
+            
                 if (existingEmail === email) {
-                    console.log('checking in');                    
+                    router.push(`/?email=${existingEmail}`);
                 } else {
                     setError('Invalid Inputs');
                     setTimeout(() => {
                         setError('');
                     }, 2000);
                 }
-            } else {
-                setError('Failed to decode JWT token');
-                setTimeout(() => {
-                    setError('');
-                }, 2000);
             }
-
+                   
         } catch (error) {
-            setError('Cannot find user');
+            setError('passWords or Email are invalid');
             console.error(error);
             setTimeout(() => {
                 setError('');
@@ -114,13 +109,13 @@ export default function Modal() {
                         </Stack>
 
                         <Stack sx={{ gap: "32px" }}>
+                            <Stack width={"100%"} alignItems={"center"} color={'red'}>{error}</Stack>
                             <Button
                                 onClick={checkingUser}
                                 className={buttonClass}
                                 sx={{ background: '#EEEFF2', borderRadius: '4px', color: 'grey' }}>Нэвтрэх</Button>
                             <div style={{ width: "500px", justifyContent: "center", textAlign: "center" }}>Эсвэл</div>
                             <Button onClick={navigateSingUp} sx={{ color: "black" }}>Бүртгүүлэх</Button>
-                            <Stack>{error}</Stack>
                         </Stack>
                     </DialogContentText>
                 </DialogContent>

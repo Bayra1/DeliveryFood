@@ -4,11 +4,6 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Title from './Title';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Bean from "./assets/Bean.avif";
-import { Typography } from '@mui/material';
-import CardContent from '@mui/material/CardContent';
-import Card from '@mui/material/Card';
-import { CardActionArea } from '@mui/material';
 
 const container = {
     width: '100%',
@@ -125,36 +120,7 @@ export default function DiscountCards() {
                         <ArrowForwardIosIcon />
                     </Stack>
                 </Stack>
-
-                <Stack gap={2} justifyContent={'space-between'} sx={{ display: 'flex', flexDirection: 'row' }}>
-                    {
-                        data.map((element, i) => {
-                            return (
-
-                                <Card sx={{ height: 'fit-content',  minWidth: 275 }} key={i}>
-                                    <CardActionArea>
-                                        <img style={{ height: '186px', width: '100%' }} src={element.img} alt="" />                                        
-                                        <CardContent>
-                                            <Typography style={styleName}>
-                                                {element.name}
-                                            </Typography>
-
-                                            <Stack flexDirection={'row'} gap={5}>
-                                                <Typography style={stylePrice}>
-                                                    {element.price}₮
-                                                </Typography>
-                                                <Typography sx={styleDiscount} color="text.secondary">
-                                                    {element.discount}₮
-                                                </Typography>
-                                            </Stack>
-
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            )
-                        })
-                    }
-                </Stack>
+                
 
             </Stack>
         </Box>
