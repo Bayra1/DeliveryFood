@@ -13,6 +13,7 @@ import VisEyeIcon from '@mui/icons-material/VisibilityOutlined';
 import OffEyeIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import jwt from 'jsonwebtoken'
 
 const backEnd = "http://localhost:8001/user/login"
 
@@ -24,10 +25,6 @@ export default function Modal() {
     const [open, setOpen] = useState(true);
     const [buttonClass, setButtonClass] = useState('inactive');
     const router = useRouter()
-
-    const OpenModal = () => {
-        setOpen(true)
-    }
 
     const CloseModal = () => {
         setOpen(false)
@@ -46,26 +43,35 @@ export default function Modal() {
         router.push('/SignUp')
     }
 
-    const verifyUser = async () => {
+    const checkingUser = async () => {
         try {
             const response = await axios.post(backEnd, {
                 email,
                 password,
             });
-            // console.log(response);
-            
-            const desiredUser = response.data;
+            const jwtToken = response.data.token;
+            // console.log(jwtToken, "this is JWT token");
+            const decodedToken = jwt.decode(jwtToken);
+            // console.log(decodedToken, "decoded token");
 
-            console.log('test', desiredUser);
-
-            if (desiredUser.password === password) {
-                router.push('/DeliveryZone');
+            if (decodedToken) {
+                const existingEmail = decodedToken.desiredUser.email;
+                console.log(existingEmail, "this is existingEmail");                
+                if (existingEmail === email) {
+                    console.log('checking in');                    
+                } else {
+                    setError('Invalid Inputs');
+                    setTimeout(() => {
+                        setError('');
+                    }, 2000);
+                }
             } else {
-                setError('Password does not match');
+                setError('Failed to decode JWT token');
                 setTimeout(() => {
                     setError('');
                 }, 2000);
             }
+
         } catch (error) {
             setError('Cannot find user');
             console.error(error);
@@ -74,7 +80,6 @@ export default function Modal() {
             }, 2000);
         }
     };
-
 
     return (
         <Box>
@@ -110,7 +115,7 @@ export default function Modal() {
 
                         <Stack sx={{ gap: "32px" }}>
                             <Button
-                                onClick={verifyUser}
+                                onClick={checkingUser}
                                 className={buttonClass}
                                 sx={{ background: '#EEEFF2', borderRadius: '4px', color: 'grey' }}>Нэвтрэх</Button>
                             <div style={{ width: "500px", justifyContent: "center", textAlign: "center" }}>Эсвэл</div>
@@ -122,4 +127,4 @@ export default function Modal() {
             </Dialog>
         </Box>
     )
-}
+};

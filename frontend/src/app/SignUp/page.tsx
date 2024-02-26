@@ -77,7 +77,6 @@ export default function SignUp() {
         }
     };
 
-
     return (
         <Stack>
             <Navbar />

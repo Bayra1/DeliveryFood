@@ -75,81 +75,74 @@ interface categoryType {
     foodIds: foodItem[];
     name: string
 }
-
 export default function MenuCategory() {
-    const [selectedCategory, setSelectedCategory] = useState();
-    const [isActive, setIsActive] = useState(0);
-    const [filteredData, setFilteredData] = useState<categoryType[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [allCategories, setAllCategories] = useState<categoryType[]>([]);
     const [foodCards, setFoodCards] = useState<foodItem[]>([]);
 
-    const handleColor = (index: number) => {
-        // console.log("isActive:", index);
-        setIsActive(index);
-    };
-    
-    const handleButtonClick = async (categoryName: any) => {
+    const handleButtonClick = async (categoryName: string) => {
         setSelectedCategory(categoryName);
     };
 
-    const manageData = async () => {
-        try {
-            const response = await axios.get(backEnd);
-            const allCategories = response.data.allCategories;
-            
-            let filteredData = allCategories;
-            
-            if (selectedCategory) {                
-                filteredData = allCategories.filter((category: { name: string }) => category.name === selectedCategory);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(backEnd);
+                setAllCategories(response.data.allCategories);
+                // console.log(setAllCategories, 'categories');
+
+            } catch (error) {
+                console.log('Failed to fetch data', error);
             }
-    
-            setFilteredData(filteredData);
-    
-            const foodCards = filteredData.length > 0 ? filteredData[0].foodIds : [];
-            setFoodCards(foodCards);
-    
-        } catch (error) {
-            console.log('Failed to fetch data', error);
-        }
-    };
-    
+        };
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
-        manageData();
-    }, [selectedCategory]);
+        if (selectedCategory) {
+            const filteredCategory = allCategories.find(category => category.name === selectedCategory);
+            if (filteredCategory) {
+                setFoodCards(filteredCategory.foodIds);
+                // console.log(filteredCategory.foodIds, 'test');
+            }
+        } else {
+            const defaultFoodItems: foodItem[] = [];
+            allCategories.filter(el => {
+                if (el.name === 'Main Course') {
+                    const specificFood = el.foodIds.slice(0, 4)
+                    defaultFoodItems.push(...specificFood)
+                }
+            });
+            setFoodCards(defaultFoodItems)
+        }
+    }, [selectedCategory, allCategories]);
 
     return (
         <Box>
             <Navbar />
             <Stack mt={10} width={'100%'} justifyContent={'center'} alignItems={'center'}>
-
                 <Box width={'80%'} sx={{ display: 'flex' }} gap={2} justifyContent={'space-between'}>
-                    {filteredData.map((element, index) => {
-                        // console.log(filteredData);
-                        return (
-                            <Button
-                                style={{ ...buttonStyle, backgroundColor: index === isActive ? "#18BA51" : "white" }}
-                                key={index}                                                              
-                                onClick={() => {
-                                    handleColor(index)
-                                    handleButtonClick(element.name)
-                                    manageData()
-                                }}
-                            >
-                                {(element as { name: string }).name}
-                            </Button>
-                        )
-                    })}
+                    {allCategories.map((element, index) => (
+                        <Button
+                            style={{ ...buttonStyle, backgroundColor: element.name === selectedCategory ? "#18BA51" : "white" }}
+                            key={index}
+                            onClick={() => handleButtonClick(element.name)}
+                        >
+                            {element.name}
+                        </Button>
+                    ))}
                 </Box>
 
                 <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"80%"} gap={2}>
-                    {foodCards.slice(0, 4).map((item, i) => (
+                    {foodCards.map((item, i) => (
                         <Card key={i} sx={{ maxWidth: 345 }}>
                             <CardActionArea>
                                 <Stack>
                                     <CardMedia
-                                        sx={{ width: "382px", height: "200px", }}
+                                        sx={{ width: "382px", height: "200px" }}
                                         component="img"
-                                        image={item.image}                                        
+                                        image={item.image}
                                     />
                                     <Typography style={styleDiscount}>{item.discount}%</Typography>
                                 </Stack>

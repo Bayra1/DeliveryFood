@@ -13,6 +13,7 @@ export const signUp = async (req: Request, res: Response) => {
         const response = await userModel.create({
             name,
             email,
+            address,
             password: hash,
             phoneNumber,
             role,
@@ -60,9 +61,9 @@ export const Login = async (req: Request, res: Response) => {
             return res.status(404).send({ msg: 'user cannot be found' });
         }
 
-        const legi = bcrypt.compare(password, desiredUser.password)
+        const legi = await bcrypt.compare(password, desiredUser.password)
         console.log(legi);
-        
+
         if (!legi) {
             return res.status(404).send({
                 msg: 'Email or PassWord Incorrect'
@@ -74,8 +75,7 @@ export const Login = async (req: Request, res: Response) => {
         return res.status(200).send({
             success: true,
             token
-        })
-
+        });
 
     } catch (error) {
         console.log('error at login', error);
@@ -85,3 +85,23 @@ export const Login = async (req: Request, res: Response) => {
         })
     }
 };
+
+export const updateUser = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id
+
+        const { name, phoneNumber, email } = req.body;
+
+        const updatedUser = await userModel.findByIdAndUpdate(id, { name, phoneNumber, email });
+
+        return res.status(200).send({
+            success: true,
+            updatedUser
+        });
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            msg: error
+        })
+    }
+}

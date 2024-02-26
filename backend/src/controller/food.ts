@@ -29,8 +29,8 @@ export const updateFood = async (req: Request, res: Response) => {
     try {
         const id = req.params.id
 
-        const { name, ingredient, discount } = req.body;
-        const updatedFood = await foodModel.findByIdAndUpdate(id, { name, ingredient, discount });
+        const { name, ingredient, discount, image, price } = req.body;
+        const updatedFood = await foodModel.findByIdAndUpdate(id, { name, ingredient, discount, image, price });
 
         return res.status(200).send({
             success: true,

@@ -9,14 +9,13 @@ import DiscountCards from "./Discount";
 import MainFood from "./MainFood";
 import Navbar from "./Navbar";
 import BackPicture from "./icons/bckImg";
+import UserProfile from "./UserProfile";
 
 export default function HomePage() {
     return (
         <Box width={"100%"}>
-            {/* <Navbar/> */}
             <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
-                <Stack>
-                    {/* <BackPicture /> */}
+                <Stack>                    
                 </Stack>
                 <Box justifyContent='space-between' width={"80%"} alignItems='center' sx={{ display: "flex" }}>
                     <Stack>
@@ -34,6 +33,7 @@ export default function HomePage() {
             <DiscountCards />
             <MainFood />
             <Footer />            
+            {/* <UserProfile/> */}
         </Box>
     );
 }

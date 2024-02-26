@@ -14,7 +14,7 @@ export default function Home() {
 
   const handleModal = () => {
     setModal(!modal);
-    console.log(!modal);
+    // console.log(!modal);
     console.log('first');
   }
 
