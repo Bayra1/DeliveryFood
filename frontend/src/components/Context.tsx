@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 export const foodContext = createContext({})
 
-export const giverFoodData = ({ children }: any) => {
+export const GiveFoodData = ({ children }: any) => {
     const [foodData, setFoodData] = useState([]);
     return (
         <foodContext.Provider value={[foodData, setFoodData]}>
@@ -10,7 +10,3 @@ export const giverFoodData = ({ children }: any) => {
         </foodContext.Provider>
     )
 };
-
-
-
-

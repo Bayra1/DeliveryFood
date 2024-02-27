@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { CardActionArea } from "@mui/material";
+import { Typography } from '@mui/material';
+import { CSSProperties } from "styled-components";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Title from './Title';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Bean from "./assets/Bean.avif";
-import { Typography } from '@mui/material';
+import axios from 'axios';
 import CardContent from '@mui/material/CardContent';
-import Card from '@mui/material/Card';
-import { CardActionArea } from '@mui/material';
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+
+const backEnd = "http://localhost:8001/food/retAllFoods"
+
+interface Food {
+    sale: Boolean,
+    image: String,
+    discount: Number,
+    name: String,
+    price: Number
+};
 
 const container = {
     width: '100%',
@@ -40,78 +52,90 @@ const disCategory = {
     marginBottom: 5
 };
 
-const styleDiscount = {
-    width: '66px',
-    height: '27px',
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
+const styleDiscount: CSSProperties = {
+    width: '70px',
+    height: '35px',
     fontWeight: 400,
     fontSize: '18px',
-    lineHeight: '27px',
-    textDecorationLine: 'line-through',
-    color: '#27272',
-    flex: 'none',
-    order: 1,
-    flexGrow: 0,
-};
-
-const stylePrice = {
-    width: '69px',
-    height: '27px',
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 600,
-    fontSize: '18px',
-    lineHeight: '27px',
-    color: '#18BA51',
-    flex: 'none',
-    order: 0,
-    flexGrow: 0,
+    color: '#fff',
+    backgroundColor: "#18BA51",
+    textAlign: "center",
+    borderRadius: "16px",
+    borderStyle: "solid",
+    borderWidth: "1px",
+    borderColor: "#27272",
+    position: "absolute",
+    top: "16px",
+    left: "257px",
+    padding: "4px 16px",
 };
 
 const styleName = {
     width: '282px',
     height: '27px',
-    fontFamily: 'Poppins',
-    fontStyle: 'normal',
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: '18px',
     lineHeight: '27px',
     color: '#000000',
-    flex: 'none',
-    order: 0,
-    alignSelf: 'stretch',
-    flexGrow: 0,
+};
+
+const styleDiscountedPrice = {
+    width: '69px',
+    height: '27px',
+    fontWeight: 600,
+    fontSize: '18px',
+    lineHeight: '27px',
+    color: '#18BA51',
 };
 
 
 export default function MainFood() {
-    const data = [
-        {
-            img: 'https://s3-alpha-sig.figma.com/img/1f91/a1b6/d973c90c192043aefe86e4258acae7e6?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mrKNTktvMZdf~8BPiiTJURm8j4Kgr9J-QbMQaiBso8EnhWMJO4lCBmYpeOi8zOCWUdY5mCD4P8erlo~ezrBlACxlLcdubo8EfKGxaNj6VzVrG0lBT2tQvilUGhaIVwFVa4sVDMo3vbxBIVl5HZDMhIRZc2HMBZ5tj1I5EpBtVHUOtPXBKHFGPyOiO2ZbGpMKBY5wrnSlojyvMvAluqbn9kffeGhZ3JMY6KT~9pdSUVzI8hzRblDe8U0xxkNCIpkYnVXItGDGt-zcuk2FlVJA~aKPcdsozyEwjWnXUlO6OeLoM~rHgxn-b9hIjTv6hhDQeIxPvtvRqjbGKnNWquK8ug__',
-            name: 'Main Pizza',
-            price: 12900,
-            discount: 10
-        },
-        {
-            img: 'https://s3-alpha-sig.figma.com/img/abab/8928/c4c79b15138c71b44dc8c2202844dd61?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DTrTA80HWzJDF3rYLaB1TFgP-qnOav0JNErTLLDO8TDgzew3O8Aq5hedyzXX7VmB19t90pF4gsAW8iDjkDvMf-CeLeeMT9VZ-p3axesLaOWF3FLUEYqR8lnj2nF-ZgV1KvZPOp6vqgJXl1DHDMCBp94ACdYd~anBWdxbIrD3l5dnaNDeDl1f6bwW~76GbwsLgMWJn4MqTq-v1qaNDVzG6k3cgsiMi0xoNstZO16NEDE8S55vMHYVzw-4Jposd-auXmZ9gijSzQVysx8j6LHCqUiD~LRvxN5QTObVFQOSw8~tkFuV-IitDpYZY7AX2RKTsDZDBf6eGoC34Lu0GsPssQ__',
-            name: 'Food Tart',
-            price: 12900,
-            discount: 10
-        },
-        {
-            img: 'https://s3-alpha-sig.figma.com/img/27cb/2c3b/60df84dc4dd7d808ba224aff01eeb6d8?Expires=1708300800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZTYGXkdrBGE~om1HZ2Bo7yJU1lzitXIddPJ6wM56sVkdEwH8CxhYOBN-uNGjfMgzRW11AWFiKLlgRrttYbEcjjn-IeI7gg1Y0uiSKlpidpSIpgu4kDf82u-3QUuVGDWG1MgbmGjp~em45L0gQisu38m7ir8fII5qPgOEnVtE-rvB5zQcvPrZRgL6vz0wcH~kwMnN6Z6d7rQCfqkgZLyiYB7lRo4GEKSESa-BHe3YptjmvGJCIaJNHskU0GXzuZf-4v48Te~NjBC0Clg03itgYUuwlvG8YKaeBgfl6KZKqUqgZ0Q3Z9oh0uOAe6V2KEzHY8atiy5LxqalO~LUMwB2Kg__',
-            name: 'Өглөөний хоол',
-            price: 12900,
-            discount: 10
-        },
-        {
-            img: 'https://s3-alpha-sig.figma.com/img/0765/ebe5/ba234ec6e3de87f32b816439af24885e?Expires=1708300800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ocMwmyGKkZNciQy5wCsyOIcxBhx2jP0hseCRQBUmZzyQvffYtLX5v31DS2t0fq8Br4H9LCwHi94W6B2pi0NtsLqA2d0P8DHK1G3Mvk56nCuGehk6v8SpVjJM4i3s4icA0zQHb7wiZUWPrrUJFvRoD1JE5w3YbAdcLCEZImkIUKxtIlxsT6O4B4f-0oGBaf8SNjAatljGBkJSorJ4b691o60BeAOCn0INCvbwOnb4A-KfKm4FXZfsBezCDdz6Znl9LQAFmFzRPleXAM2PLYef1nOgPYveurjlXOddTrxWb2kDOqxNegzl7qNxONkId08T5Sufygcs-dCrGb7cfp6mig__',
-            name: 'BreakFast',
-            price: 12900,
-            discount: 10
-        },
-    ]
+    const [saleFoods, setSaleFoods] = useState<Food[]>([]);
+    const [showAdditionalCard, setshowAdditionalCard] = useState(false)
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = async () => {
+        try {
+            const response = await axios.get(backEnd);
+            const allFoods = response.data.allFoods;
+            // console.log(allFoods, "f");
+
+            const foodsOnSale = allFoods.filter((el: Food) => el.sale === true)
+            // console.log(foodsOnSale, "test");
+            setSaleFoods(foodsOnSale)
+
+            // console.log(foodsOnSale, "hey");
+
+        } catch (error) {
+            console.log("failed to get data", error);
+        }
+    };
+
+
+    const seeAllFoodsOnSale = async () => {
+        try {
+            const response = await axios.get(backEnd);
+            const allFoods = response.data.allFoods;
+
+            const foodsOnSale = allFoods.filter((el: Food) => el.sale === true)
+            setSaleFoods(foodsOnSale)
+            setshowAdditionalCard(true)
+
+            console.log(foodsOnSale, "hey");
+
+        } catch (error) {
+            console.log("failed to get data", error);
+        }
+    };
+
+    const toggleAdditionalCards = () => {
+        setshowAdditionalCard(!showAdditionalCard)
+    }
+
+
     return (
         <Box sx={container}>
             <Stack sx={innerContainer}>
@@ -119,44 +143,86 @@ export default function MainFood() {
                 <Stack sx={disCategory}>
                     <Title title={'Үндсэн хоол'} />
                     <Stack style={buttonClass}>
-                        <Button sx={{ color: '#18BA51' }}>
-                            Бүгдийг харах
+
+                        <Button onClick={toggleAdditionalCards} sx={{ color: '#18BA51' }}>
+                            {!showAdditionalCard ? 'Бүгдийг харах' : 'Хаах'}
                         </Button>
                         <ArrowForwardIosIcon />
                     </Stack>
                 </Stack>
 
-                <Stack gap={2} justifyContent={'space-between'} sx={{ display: 'flex', flexDirection: 'row' }}>
-                    {
-                        data.map((element, i) => {
-                            return (
+                <Stack>
 
-                                <Card sx={{ height: 'fit-content',  minWidth: 275 }} key={i}>
+                    <Stack sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"100%"} gap={2}>
+                        {
+                            saleFoods.slice(0, 4).map((item, i) => (
+                                <Card key={i} sx={{ maxWidth: 345 }}>
                                     <CardActionArea>
-                                        <img style={{ height: '186px', width: '100%' }} src={element.img} alt="" />                                        
+                                        <Stack>
+                                            <CardMedia
+                                                sx={{ width: "382px", height: "200px" }}
+                                                component="img"
+                                                image={item.image.valueOf()}
+                                            />
+                                            <Typography style={styleDiscount}>{item.discount.valueOf()}%</Typography>
+                                        </Stack>
+
                                         <CardContent>
-                                            <Typography style={styleName}>
-                                                {element.name}
-                                            </Typography>
-
-                                            <Stack flexDirection={'row'} gap={5}>
-                                                <Typography style={stylePrice}>
-                                                    {element.price}₮
+                                            <Typography style={styleName}>{item.name}</Typography>
+                                            <Stack mt={1} flexDirection={"row"}>
+                                                <Typography style={styleDiscountedPrice}>
+                                                    {item.discount.valueOf() > 0
+                                                        ? `${item.price.valueOf() - (item.price.valueOf() * (item.discount.valueOf() / 100))}₮`
+                                                        : `${item.price}`
+                                                    }
                                                 </Typography>
-                                                <Typography sx={styleDiscount} color="text.secondary">
-                                                    {element.discount}₮
-                                                </Typography>
+                                                <Typography sx={{ textDecorationLine: 'line-through' }}>{item.price.valueOf()}₮</Typography>
                                             </Stack>
-
                                         </CardContent>
                                     </CardActionArea>
                                 </Card>
-                            )
-                        })
+                            ))
+                        }
+                    </Stack>
+
+                    {
+                        showAdditionalCard && (
+                            <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"100%"} gap={2}>
+                                {
+                                    saleFoods.slice(4, 8).map((item, i) => (
+                                        <Card key={i} sx={{ maxWidth: 345 }}>
+                                            <CardActionArea>
+                                                <Stack>
+                                                    <CardMedia
+                                                        sx={{ width: "382px", height: "200px" }}
+                                                        component="img"
+                                                        image={item.image.valueOf()}
+                                                    />
+                                                    <Typography style={styleDiscount}>{item.discount.valueOf()}%</Typography>
+                                                </Stack>
+
+                                                <CardContent>
+                                                    <Typography style={styleName}>{item.name}</Typography>
+                                                    <Stack mt={1} flexDirection={"row"}>
+                                                        <Typography style={styleDiscountedPrice}>
+                                                            {item.discount.valueOf() > 0
+                                                                ? `${item.price.valueOf() - (item.price.valueOf() * (item.discount.valueOf() / 100))}₮`
+                                                                : `${item.price}`
+                                                            }
+                                                        </Typography>
+                                                        <Typography sx={{ textDecorationLine: 'line-through' }}>{item.price.valueOf()}₮</Typography>
+                                                    </Stack>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    ))
+                                }
+                            </Stack>
+                        )
                     }
                 </Stack>
 
             </Stack>
         </Box>
     );
-}
+};

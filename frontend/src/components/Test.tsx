@@ -1,93 +1,97 @@
-// import React, { useEffect, useState } from 'react';
-// import { Button, Typography, Box, Stack, Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
-// import axios from "axios";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
+import { FoodContext } from "./Context";
 
-// const backEnd = "http://localhost:8001/category/retAll";
+function FoodModal({ foodCardId, food, onClick }: any) {
+    const [count, setCount] = useState(1);
+    const { addToCart, foodData }: any = useContext(FoodContext);
+    const selectedFood = food.find((item: any) => item._id === foodCardId);
+    const cardHandler = () => {
+        const foodItem = {
+            selectedFood,
+            count,
+        };
+        addToCart(foodItem);
+    };
 
-// const MenuCategory = () => {
-//     const [selectedCategory, setSelectedCategory] = useState('');
-//     const [filteredData, setFilteredData] = useState([]);
-//     const [foodCards, setFoodCards] = useState([]);
+    const decrementCount = () => {
+        if (count > 1) {
+            setCount(count - 1);
+        }
+    };
 
-//     const handleButtonClick = async (categoryName) => {
-//         setSelectedCategory(categoryName);
-//     };
+    const incrementCount = () => {
+        setCount(count + 1);
+    };
 
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             try {
-//                 const response = await axios.get(backEnd);
-//                 const allCategories = response.data.allCategories;
+    return (
+        <Stack className="bg-black bg-opacity-70 w-full h-full fixed top-0  z-10 flex justify-center items-center">
+            <Box className="flex flex-col p-5  mt-[111px] items-center  bg-white ">
+                {selectedFood && (
+                    <Stack padding={5} display={"flex"} direction={"row"} gap={5}>
+                        <img className="w-[500px] h-[500px]" src={selectedFood.image} />
+                        <Stack display={"flex"} justifyContent={"space-between"}>
+                            <Box key={selectedFood.id}>
+                                <Typography
+                                    sx={{
+                                        fontSize: "24px",
+                                        fontWeight: "400",
+                                        cursor: "pointer",
+                                        textAlign: "end",
+                                    }}
+                                    onClick={onClick}
+                                >
+                                    x
+                                </Typography>
+                                <Typography sx={{ fontWeight: "800", fontSize: "24px" }}>
+                                    {selectedFood.name}
+                                </Typography>
 
-//                 if (selectedCategory) {
-//                     const filteredCategory = allCategories.find(category => category.name === selectedCategory);
-//                     if (filteredCategory) {
-//                         setFilteredData(filteredCategory);
-//                         setFoodCards(filteredCategory.foodIds);
-//                     }
-//                 } else {
-//                     setFilteredData(allCategories[0]); // Default to the first category
-//                     setFoodCards(allCategories[0].foodIds); // Default to the first category's food items
-//                 }
-//             } catch (error) {
-//                 console.log('Failed to fetch data', error);
-//             }
-//         };
-
-//         fetchData();
-//     }, [selectedCategory]);
-
-//     return (
-//         <Box>
-//             {/* Navbar Component */}
-//             <Stack mt={10} width={'100%'} justifyContent={'center'} alignItems={'center'}>
-//                 {/* Category Buttons */}
-//                 <Box width={'80%'} sx={{ display: 'flex' }} gap={2} justifyContent={'space-between'}>
-//                     {filteredData.map((category, index) => (
-//                         <Button
-//                             key={index}
-//                             style={{ ...buttonStyle, backgroundColor: selectedCategory === category.name ? "#18BA51" : "white" }}
-//                             onClick={() => handleButtonClick(category.name)}
-//                         >
-//                             {category.name}
-//                         </Button>
-//                     ))}
-//                 </Box>
-
-//                 {/* Food Cards */}
-//                 <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"80%"} gap={2}>
-//                     {foodCards.slice(0, 4).map((item, index) => (
-//                         <Card key={index} sx={{ maxWidth: 345 }}>
-//                             <CardActionArea>
-//                                 <Stack>
-//                                     <CardMedia
-//                                         sx={{ width: "382px", height: "200px", }}
-//                                         component="img"
-//                                         image={item.image}
-//                                         alt="food item"
-//                                     />
-//                                     <Typography style={styleDiscount}>{item.discount}%</Typography>
-//                                 </Stack>
-
-//                                 <CardContent>
-//                                     <Typography style={styleName}>{item.name}</Typography>
-//                                     <Stack mt={1} flexDirection={"row"}>
-//                                         <Typography style={styleDiscountedPrice}>
-//                                             {item.discount > 0
-//                                                 ? `${item.price - (item.price * (item.discount / 100))}₮`
-//                                                 : `${item.price}`
-//                                             }
-//                                         </Typography>
-//                                         <Typography sx={{ textDecorationLine: 'line-through' }}>{item.price}₮</Typography>
-//                                     </Stack>
-//                                 </CardContent>
-//                             </CardActionArea>
-//                         </Card>
-//                     ))}
-//                 </Stack>
-//             </Stack>
-//         </Box>
-//     );
-// };
-
-// export default MenuCategory;
+                                <Typography
+                                    sx={{ fontWeight: "600", fontSize: "20px", color: "#18BA51" }}
+                                >
+                                    {selectedFood.price}₮
+                                </Typography>
+                                <Typography sx={{ fontWeight: "800", fontSize: "18px" }}>
+                                    Орц
+                                </Typography>
+                                <Typography> {selectedFood.ingredient}</Typography>
+                            </Box>
+                            <Box>
+                                <Typography> Тоо</Typography>
+                                <Box display={"flex"} gap={15}>
+                                    <Button
+                                        className=" bg-[#18BA51] text-white"
+                                        onClick={decrementCount}
+                                    >
+                                        -
+                                    </Button>
+                                    <Typography>{count}</Typography>
+                                    <Button
+                                        className=" bg-[#18BA51] text-white"
+                                        onClick={incrementCount}
+                                    >
+                                        +
+                                    </Button>
+                                </Box>
+                                <Button
+                                    className=" bg-[#18BA51]"
+                                    sx={{
+                                        color: "white",
+                                        ":hover": { color: "#18BA51" },
+                                        background: "green",
+                                        width: "379px",
+                                    }}
+                                    onClick={cardHandler}
+                                >
+                                    add to card
+                                </Button>
+                            </Box>
+                        </Stack>
+                    </Stack>
+                )}
+            </Box>
+        </Stack>
+    );
+}
+export default FoodModal;

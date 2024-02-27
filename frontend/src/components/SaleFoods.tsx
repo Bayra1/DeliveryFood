@@ -66,7 +66,7 @@ const styleDiscount: CSSProperties = {
     borderColor: "#27272",
     position: "absolute",
     top: "16px",
-    left: "197px",
+    left: "257px",
     padding: "4px 16px",
 };
 
@@ -89,28 +89,51 @@ const styleDiscountedPrice = {
 };
 
 
-export default function DiscountCards() {
+export default function SaleFoods() {
     const [saleFoods, setSaleFoods] = useState<Food[]>([]);
+    const [showAdditionalCard, setshowAdditionalCard] = useState(false)
 
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const response = await axios.get(backEnd);
-                const allFoods = response.data.allFoods;
-                // console.log(allFoods, "f");
-
-                const foodsOnSale = allFoods.filter((el: Food) => el.sale === true)
-                console.log(foodsOnSale, "test");
-                setSaleFoods(foodsOnSale)
-
-            } catch (error) {
-                console.log("failed to get data", error);
-            }
-        };
-
         getData();
     }, []);
 
+    const getData = async () => {
+        try {
+            const response = await axios.get(backEnd);
+            const allFoods = response.data.allFoods;
+            // console.log(allFoods, "f");
+
+            const foodsOnSale = allFoods.filter((el: Food) => el.sale === true)
+            // console.log(foodsOnSale, "test");
+            setSaleFoods(foodsOnSale)
+
+            // console.log(foodsOnSale, "hey");
+
+        } catch (error) {
+            console.log("failed to get data", error);
+        }
+    };
+
+
+    const seeAllFoodsOnSale = async () => {
+        try {
+            const response = await axios.get(backEnd);
+            const allFoods = response.data.allFoods;
+
+            const foodsOnSale = allFoods.filter((el: Food) => el.sale === true)
+            setSaleFoods(foodsOnSale)
+            setshowAdditionalCard(true)
+
+            console.log(foodsOnSale, "hey");
+
+        } catch (error) {
+            console.log("failed to get data", error);
+        }
+    };
+
+    const toggleAdditionalCards = () => {
+        setshowAdditionalCard((previousValue) => !previousValue)
+    }
 
 
     return (
@@ -121,45 +144,85 @@ export default function DiscountCards() {
                     <Title title={'Хямдралтай'} />
                     <Stack style={buttonClass}>
 
-                        <Button sx={{ color: '#18BA51' }}>
-                            Бүгдийг харах
+                        <Button onClick={toggleAdditionalCards} sx={{ color: '#18BA51' }}>
+                            {!showAdditionalCard ? "See All" : 'Close'}
                         </Button>
                         <ArrowForwardIosIcon />
                     </Stack>
                 </Stack>
 
-                <Stack sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"100%"} gap={2}>
-                    {saleFoods.map((item, i) => (                                                
-                        <Card key={i} sx={{ maxWidth: 345 }}>
-                            <CardActionArea>
-                                <Stack>
-                                    <CardMedia
-                                        sx={{ width: "382px", height: "200px" }}
-                                        component="img"
-                                        image={item.image.valueOf()}
-                                    />
-                                    <Typography style={styleDiscount}>{item.discount.valueOf()}%</Typography>
-                                </Stack>
+                <Stack>
 
-                                <CardContent>
-                                    <Typography style={styleName}>{item.name}</Typography>
-                                    <Stack mt={1} flexDirection={"row"}>
-                                        <Typography style={styleDiscountedPrice}>
-                                            {item.discount.valueOf() > 0
-                                                ? `${item.price.valueOf() - (item.price.valueOf() * (item.discount.valueOf() / 100))}₮`
-                                                : `${item.price}`
-                                            }
-                                        </Typography>
-                                        <Typography sx={{ textDecorationLine: 'line-through' }}>{item.price.valueOf()}₮</Typography>
-                                    </Stack>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    ))}
+                    <Stack sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"100%"} gap={2}>
+                        {
+                            saleFoods.slice(4, 8).map((item, i) => (
+                                <Card key={i} sx={{ maxWidth: 345 }}>
+                                    <CardActionArea>
+                                        <Stack>
+                                            <CardMedia
+                                                sx={{ width: "382px", height: "200px" }}
+                                                component="img"
+                                                image={item.image.valueOf()}
+                                            />
+                                            <Typography style={styleDiscount}>{item.discount.valueOf()}%</Typography>
+                                        </Stack>
+
+                                        <CardContent>
+                                            <Typography style={styleName}>{item.name}</Typography>
+                                            <Stack mt={1} flexDirection={"row"}>
+                                                <Typography style={styleDiscountedPrice}>
+                                                    {item.discount.valueOf() > 0
+                                                        ? `${item.price.valueOf() - (item.price.valueOf() * (item.discount.valueOf() / 100))}₮`
+                                                        : `${item.price}`
+                                                    }
+                                                </Typography>
+                                                <Typography sx={{ textDecorationLine: 'line-through' }}>{item.price.valueOf()}₮</Typography>
+                                            </Stack>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            ))
+                        }
+                    </Stack>
+
+                    {
+                        showAdditionalCard && (
+                            <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"100%"} gap={2}>
+                                {
+                                    saleFoods.slice(0, 4).map((item, i) => (
+                                        <Card key={i} sx={{ maxWidth: 345 }}>
+                                            <CardActionArea>
+                                                <Stack>
+                                                    <CardMedia
+                                                        sx={{ width: "382px", height: "200px" }}
+                                                        component="img"
+                                                        image={item.image.valueOf()}
+                                                    />
+                                                    <Typography style={styleDiscount}>{item.discount.valueOf()}%</Typography>
+                                                </Stack>
+
+                                                <CardContent>
+                                                    <Typography style={styleName}>{item.name}</Typography>
+                                                    <Stack mt={1} flexDirection={"row"}>
+                                                        <Typography style={styleDiscountedPrice}>
+                                                            {item.discount.valueOf() > 0
+                                                                ? `${item.price.valueOf() - (item.price.valueOf() * (item.discount.valueOf() / 100))}₮`
+                                                                : `${item.price}`
+                                                            }
+                                                        </Typography>
+                                                        <Typography sx={{ textDecorationLine: 'line-through' }}>{item.price.valueOf()}₮</Typography>
+                                                    </Stack>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    ))
+                                }
+                            </Stack>
+                        )
+                    }
                 </Stack>
-
 
             </Stack>
         </Box>
     );
-}
+};
