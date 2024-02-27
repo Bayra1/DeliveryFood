@@ -91,7 +91,7 @@ export default function MenuCategory() {
     const handleButtonClick = async (categoryName: string) => {
         setSelectedCategory(categoryName);
     };
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -144,8 +144,9 @@ export default function MenuCategory() {
     };
 
     const CloseModal = (foodId: any) => {
+        setSelectedFoodId(foodId)
         setModalOpen(false)
-    }
+    };
 
 
     return (

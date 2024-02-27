@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    margin: 0;
+}
+
 .active {
-    background-color:#18BA51;
+    background-color: #18BA51;
     color: black;
 }
 

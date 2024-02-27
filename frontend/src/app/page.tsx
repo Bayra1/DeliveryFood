@@ -18,12 +18,10 @@ export default function Home() {
   console.log(test, 'test');
   
   return (
-    <GiveFoodData>
       <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'} height="fit-content">
         <Navbar onClick={handleModal} />
         {modal && <Modal />}
         <HomePage />
       </Box>
-    </GiveFoodData>
   );
 };

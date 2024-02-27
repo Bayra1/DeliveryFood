@@ -11,28 +11,24 @@ import SaleFoods from "./SaleFoods";
 
 export default function HomePage() {
     return (
-        <GiveFoodData>
-            <Box width={"100%"}>
-                <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>
+        <Box width={"100%"}>
+            <Box sx={{ display: "flex" }} alignItems='center' flexDirection='column' bgcolor='#18BA51' justifyContent='center' height='788px'>                            
+                <Box justifyContent='space-between' width={"80%"} alignItems='center' sx={{ display: "flex" }}>
                     <Stack>
+                        <Typography sx={{ fontWeight: 500 }} color='white' variant="h4">PineCone <br /> Food Delivery</Typography>
+                        <Typography mb={2} mt={2} border={"1px solid white"}></Typography>
+                        <Typography color='white' variant="h6">Horem ipsum dolor sit amet,</Typography>
+                        <Typography color='white' variant="h6">consectetur adipiscing elit.</Typography>
                     </Stack>
-                    <Box justifyContent='space-between' width={"80%"} alignItems='center' sx={{ display: "flex" }}>
-                        <Stack>
-                            <Typography sx={{ fontWeight: 500 }} color='white' variant="h4">PineCone <br /> Food Delivery</Typography>
-                            <Typography mb={2} mt={2} border={"1px solid white"}></Typography>
-                            <Typography color='white' variant="h6">Horem ipsum dolor sit amet,</Typography>
-                            <Typography color='white' variant="h6">consectetur adipiscing elit.</Typography>
-                        </Stack>
-                        <Stack sx={{ width: "450xp", height: "450xp" }}>
-                            <img className="w-[450px] h-p[450px]" src={BigFood.src} alt="" />
-                        </Stack>
-                    </Box>
+                    <Stack sx={{ width: "450xp", height: "450xp" }}>
+                        <img className="w-[450px] h-p[450px]" src={BigFood.src} alt="" />
+                    </Stack>
                 </Box>
-                <Deliveries />
-                <SaleFoods />
-                <MainFood />
-                <Footer />      
             </Box>
-        </GiveFoodData>
+            <Deliveries />
+            <SaleFoods />
+            <MainFood />
+            <Footer />
+        </Box>
     );
-}
+};
