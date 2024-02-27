@@ -53,8 +53,6 @@ export default function Login() {
                         />
                     </FormControl>
                 </Stack>
-
-
                 <Stack sx={{ gap: "32px" }}>
                     <Button sx={{ background: '#EEEFF2', borderRadius: '4px', color: 'grey' }}>Нэвтрэх</Button>
                     <div style={{ width: "500px", justifyContent: "center", textAlign: "center" }}>Эсвэл</div>

@@ -19,8 +19,7 @@ const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС']
 
 function Navbar({ onClick }: any) {
   const [searchText, setSearchText] = useState<String>('');
-  // const [isIngre, setIsIngre] = useState(false)
-  const [isActive, setIsActive] = useState(0)
+  const [isActive, setIsActive] = useState(0);
   const router = useRouter();
 
   const handleColor = (index: number) => {

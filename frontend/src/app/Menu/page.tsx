@@ -11,8 +11,11 @@ import CardContent from '@mui/material/CardContent';
 import axios from "axios";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
+import { FoodModal } from "@/components/FoodModal";
 
-const backEnd = "http://localhost:8001/category/retAll"
+const backEnd = "http://localhost:8001/category/retAll";
+
+const food = "http://localhost:8001/food/retAllfoods";
 
 const styleDiscount: CSSProperties = {
     width: '70px',
@@ -64,6 +67,7 @@ const styleDiscountedPrice = {
 };
 
 interface foodItem {
+    _id: any;
     image: string;
     name: string;
     discount: number;
@@ -74,22 +78,39 @@ interface foodItem {
 interface categoryType {
     foodIds: foodItem[];
     name: string
-}
+};
+
 export default function MenuCategory() {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [allCategories, setAllCategories] = useState<categoryType[]>([]);
     const [foodCards, setFoodCards] = useState<foodItem[]>([]);
+    const [selectedFoodId, setSelectedFoodId] = useState(null);
+    const [modalOpen, setModalOpen] = useState<Boolean>(false);
+    const [foodData, setFood] = useState<foodItem[]>([]);
 
     const handleButtonClick = async (categoryName: string) => {
         setSelectedCategory(categoryName);
     };
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(food);
+                setFood(response.data)
+                // console.log(foodData)
+            } catch (error) {
+                console.log('Failed to fetch data', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(backEnd);
                 setAllCategories(response.data.allCategories);
-                // console.log(setAllCategories, 'categories');
 
             } catch (error) {
                 console.log('Failed to fetch data', error);
@@ -104,7 +125,6 @@ export default function MenuCategory() {
             const filteredCategory = allCategories.find(category => category.name === selectedCategory);
             if (filteredCategory) {
                 setFoodCards(filteredCategory.foodIds);
-                // console.log(filteredCategory.foodIds, 'test');
             }
         } else {
             const defaultFoodItems: foodItem[] = [];
@@ -117,6 +137,16 @@ export default function MenuCategory() {
             setFoodCards(defaultFoodItems)
         }
     }, [selectedCategory, allCategories]);
+
+    const showModal = (foodId: any) => {
+        setSelectedFoodId(foodId);
+        setModalOpen(true);
+    };
+
+    const CloseModal = (foodId: any) => {
+        setModalOpen(false)
+    }
+
 
     return (
         <Box>
@@ -137,7 +167,7 @@ export default function MenuCategory() {
                 <Stack mt={10} sx={{ display: 'flex' }} flexDirection={'row'} justifyContent={'space-between'} width={"80%"} gap={2}>
                     {foodCards.map((item, i) => (
                         <Card key={i} sx={{ maxWidth: 345 }}>
-                            <CardActionArea>
+                            <CardActionArea onClick={() => showModal(item._id)}>
                                 <Stack>
                                     <CardMedia
                                         sx={{ width: "382px", height: "200px" }}
@@ -162,6 +192,15 @@ export default function MenuCategory() {
                             </CardActionArea>
                         </Card>
                     ))}
+
+                    {modalOpen && (
+                        <FoodModal
+                            food={foodData}
+                            foodCardId={selectedFoodId}
+                            CloseModal={CloseModal}
+                        />
+                    )}
+
                 </Stack>
             </Stack>
         </Box>

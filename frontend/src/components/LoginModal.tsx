@@ -68,7 +68,7 @@ export default function Modal() {
             }
                    
         } catch (error) {
-            setError('passWords or Email are invalid');
+            setError('PassWords or Email are invalid');
             console.error(error);
             setTimeout(() => {
                 setError('');
