@@ -1,6 +1,7 @@
 import { Box, Stack, Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
+import { foodContext } from "./Context";
 
 const style = {
     position: 'absolute',
@@ -65,36 +66,45 @@ const styleBasket = {
 
 export function FoodModal({ foodCardId, food, CloseModal }: any) {
     const [count, setCount] = useState(0);
-    const selectIdFood = food.allFoods.find((el: { _id: any; }) => el._id === foodCardId);
+    const { toBasket } = useContext(foodContext)
+    const selectedFood = food.allFoods.find((el: { _id: any; }) => el._id === foodCardId);
 
     const decreaseCount = () => {
         if (count > 0) return setCount(count - 1)
     };
 
-    const increaseCount = () => setCount(count + 1)
+    const increaseCount = () => setCount(count + 1);
+
+    const navigateToBasket = () => {
+        const foodValues = {
+            selectedFood,
+            count
+        };
+        toBasket(foodValues);
+    };
 
     return (
         <Box>
             <Box sx={style}>
-                {selectIdFood && (
+                {selectedFood && (
                     <Box width={'max-content'} display={'flex'} flexDirection={'row'} gap={5}>
-                        <img style={{ width: '500px', height: '500px', borderRadius: '10px' }} src={selectIdFood.image} alt="" />
+                        <img style={{ width: '500px', height: '500px', borderRadius: '10px' }} src={selectedFood.image} alt="" />
                         <Stack mt={3}>
                             <Button onClick={CloseModal} sx={{ color: 'black', alignItems: 'flex-end', display: 'flex', flexDirection: 'column-reverse', }}>
                                 <CloseIcon />
                             </Button>
                             <Stack width={'384px'} display={'flex'} gap={2}>
-                                <Typography style={bigWords}>{selectIdFood.name}</Typography>
-                                <Typography style={stylePrice}>{selectIdFood.price}₮</Typography>
+                                <Typography style={bigWords}>{selectedFood.name}</Typography>
+                                <Typography style={stylePrice}>{selectedFood.price}₮</Typography>
                                 <Typography style={mediumWords}>Орц</Typography>
-                                <Typography width={'100%'} style={styleIngre}>{selectIdFood.ingredient}</Typography>
+                                <Typography width={'100%'} style={styleIngre}>{selectedFood.ingredient}</Typography>
                                 <Typography width={'100%'} style={mediumWords}>Too</Typography>
                                 <Stack mt={2} alignItems={'center'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                                     <Button style={buttonStyle} onClick={decreaseCount}>-</Button>
                                     <Typography style={countStyle}>{count}</Typography>
                                     <Button style={buttonStyle} onClick={increaseCount}>+</Button>
                                 </Stack>
-                                <Button style={styleBasket}>Сагслах</Button>
+                                <Button onClick={navigateToBasket} style={styleBasket}>Сагслах</Button>
                             </Stack>
                         </Stack>
                     </Box>

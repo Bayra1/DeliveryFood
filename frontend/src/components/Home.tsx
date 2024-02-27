@@ -8,6 +8,7 @@ import Deliveries from "./Deliveries";
 import Footer from "./Footer";
 import MainFood from "./MainFood";
 import SaleFoods from "./SaleFoods";
+import { BasketCard } from "./BasketCard";
 
 export default function HomePage() {
     return (
@@ -29,6 +30,7 @@ export default function HomePage() {
             <SaleFoods />
             <MainFood />
             <Footer />
+            {/* <BasketCard/> */}
         </Box>
     );
 };

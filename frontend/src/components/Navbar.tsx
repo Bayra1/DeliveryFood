@@ -80,7 +80,7 @@ function Navbar({ onClick }: any) {
 
           {/* Search Input */}
 
-          <Box>
+          {/* <Box>
             <div>
               <TextField
                 label="Search"
@@ -92,7 +92,7 @@ function Navbar({ onClick }: any) {
                 <SearchIcon sx={{ position: "absolute", right: "25px", top: "10px" }} />
               </IconButton>
             </div>
-          </Box>
+          </Box> */}
 
           <Box>
             <Stack direction="row">
