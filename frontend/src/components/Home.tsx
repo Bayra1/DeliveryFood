@@ -8,7 +8,7 @@ import Deliveries from "./Deliveries";
 import Footer from "./Footer";
 import MainFood from "./MainFood";
 import SaleFoods from "./SaleFoods";
-import { BasketCard } from "./BasketCard";
+import { BasketCard } from "./BasketCardModal";
 
 export default function HomePage() {
     return (

@@ -14,12 +14,14 @@ import BasketLogo from './icons/BasketLogo';
 import ProfileLogo from './icons/ProfileLogo';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { BasketCard } from "@/components/BasketCardModal";
 
 const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС'];
 
-function Navbar({ onClick }: any) {
+function Navbar({ onClick, displayBasket }: any) {
   const [searchText, setSearchText] = useState<String>('');
   const [isActive, setIsActive] = useState(0);
+  const [displayBasketModal, setDisplayBasketModal] = useState<Boolean>(false);
   const router = useRouter();
 
   const handleColor = (index: number) => {
@@ -47,13 +49,15 @@ function Navbar({ onClick }: any) {
 
   };
 
-  const containerStyle = {
-    maxWidth: "80%"
-  }
+  const handleToggleBasket = () => {
+    setDisplayBasketModal((previousValue) => !previousValue);
+  };
+
+
 
   return (
     <AppBar sx={{ backgroundColor: "white", boxShadow: 0, }} position="static">
-      <Container style={containerStyle}>
+      <Container style={{ maxWidth: '80%' }}>
         <Toolbar disableGutters >
           <PineconeLogo />
 
@@ -80,7 +84,7 @@ function Navbar({ onClick }: any) {
 
           {/* Search Input */}
 
-          {/* <Box>
+          <Box>
             <div>
               <TextField
                 label="Search"
@@ -92,14 +96,15 @@ function Navbar({ onClick }: any) {
                 <SearchIcon sx={{ position: "absolute", right: "25px", top: "10px" }} />
               </IconButton>
             </div>
-          </Box> */}
+          </Box>
 
           <Box>
             <Stack direction="row">
-              <Button sx={{ color: "black", gap: "20px" }}>
+              <Button onClick={handleToggleBasket} sx={{ color: "black", gap: "20px" }}>
                 <BasketLogo />
                 Сагс
               </Button>
+
 
               {/* Button to open Modal */}
               <Box>
@@ -113,6 +118,11 @@ function Navbar({ onClick }: any) {
           </Box>
 
         </Toolbar>
+        {
+          displayBasketModal && (
+            <BasketCard displayBasket={displayBasket} />
+          )
+        }
       </Container>
     </AppBar>
   );

@@ -13,8 +13,9 @@ export const GiveFoodData = ({ children }: any) => {
         setFoodData(updatedFoodData);
     };
 
-    const toBasket: any = (foodSingle: any) => {
-        setFoodData([...foodData, foodSingle])
+    const toBasket: any = (foodInfo: any) => {
+        setFoodData([...foodData, foodInfo])
+        // console.log(foodData, 'this is foodData from context');    
     };
 
     return (

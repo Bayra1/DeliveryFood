@@ -17,7 +17,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 
 const backEnd = "http://localhost:8001/user/login"
 
-export default function Modal() {
+export default function LoginModal() {
     const [password, setPassword] = useState<String>('');
     const [email, setEmail] = useState<String>('');
     const [error, setError] = useState<String>('');
