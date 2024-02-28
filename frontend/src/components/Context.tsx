@@ -4,11 +4,12 @@ import React, { createContext, useState } from "react";
 export const foodContext = createContext({
     foodData: [],
     toBasket: (food: any) => { },
-    renewFoodData: () => { }
+    renewFoodData: (food:any) => { }
 });
 
 export const GiveFoodData = ({ children }: any) => {
     const [foodData, setFoodData] = useState<any>([]);
+    
     const renewFoodData: any = (updatedFoodData: any) => {
         setFoodData(updatedFoodData);
     };

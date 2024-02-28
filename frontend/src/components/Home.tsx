@@ -1,5 +1,4 @@
 import { Typography } from "@mui/material";
-import { OrderDetail } from "./OrderDetail";
 import { GiveFoodData } from "./Context";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";

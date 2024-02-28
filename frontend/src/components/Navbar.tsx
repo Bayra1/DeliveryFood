@@ -18,7 +18,7 @@ import { BasketCard } from "@/components/BasketCardModal";
 
 const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС'];
 
-function Navbar({ onClick, displayBasket }: any) {
+function Navbar({ onClick, displayBasket, closeBasket }: any) {
   const [searchText, setSearchText] = useState<String>('');
   const [isActive, setIsActive] = useState(0);
   const [displayBasketModal, setDisplayBasketModal] = useState<Boolean>(false);
@@ -50,7 +50,14 @@ function Navbar({ onClick, displayBasket }: any) {
   };
 
   const handleToggleBasket = () => {
-    setDisplayBasketModal((previousValue) => !previousValue);
+    setDisplayBasketModal(true);
+  };
+
+  const closeBasketModal = () => {
+    setDisplayBasketModal(false);
+    // console.log(setDisplayBasketModal(false));
+    // console.log("tes");
+
   };
 
 
@@ -120,7 +127,10 @@ function Navbar({ onClick, displayBasket }: any) {
         </Toolbar>
         {
           displayBasketModal && (
-            <BasketCard displayBasket={displayBasket} />
+            <BasketCard
+              displayBasket={displayBasket}
+              closeBasket={closeBasketModal}
+            />
           )
         }
       </Container>

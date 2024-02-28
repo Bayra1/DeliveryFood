@@ -80,8 +80,9 @@ export function FoodModal({ foodCardId, food, CloseModal }: any) {
             ...selectedFood,
             count    
         };
-        toBasket(foodValues);
-        console.log(foodValues, 'foodVlues');
+        const foodArray = [foodValues]
+        toBasket(foodArray);
+        console.log(foodArray, 'foodVlues');
     };
 
 
@@ -115,7 +116,3 @@ export function FoodModal({ foodCardId, food, CloseModal }: any) {
         </Box>
     );
 };
-function JSONparse(foodValues: any): any {
-    throw new Error("Function not implemented.");
-}
-

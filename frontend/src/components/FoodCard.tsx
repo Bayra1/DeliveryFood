@@ -7,15 +7,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-interface FoodTypes {
-    food: {
-        name: string;
-        price: number;
-        image: string;
-        discount: number;
-    }
-};
-
 const styleDiscount: CSSProperties = {
     width: '70px',
     height: '35px',
