@@ -77,11 +77,13 @@ export function FoodModal({ foodCardId, food, CloseModal }: any) {
 
     const navigateToBasket = () => {
         const foodValues = {
-            selectedFood,
-            count
+            ...selectedFood,
+            count    
         };
         toBasket(foodValues);
+        console.log(foodValues, 'foodVlues');
     };
+
 
     return (
         <Box>
@@ -113,3 +115,7 @@ export function FoodModal({ foodCardId, food, CloseModal }: any) {
         </Box>
     );
 };
+function JSONparse(foodValues: any): any {
+    throw new Error("Function not implemented.");
+}
+

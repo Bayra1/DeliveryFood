@@ -15,7 +15,7 @@ export default function Home() {
   };
 
   const test = React.useContext(foodContext);
-  console.log(test, 'test');
+  // console.log(test, 'test');
   
   return (
       <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'} height="fit-content">

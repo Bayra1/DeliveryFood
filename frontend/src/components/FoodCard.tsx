@@ -94,4 +94,4 @@ export default function FoodCard(food: any) {
 
         </Box>
     );
-}
+};
