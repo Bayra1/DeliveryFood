@@ -78,11 +78,11 @@ export function FoodModal({ foodCardId, food, CloseModal }: any) {
     const navigateToBasket = () => {
         const foodValues = {
             ...selectedFood,
-            count    
+            count
         };
-        const foodArray = [foodValues]
-        toBasket(foodArray);
-        console.log(foodArray, 'foodVlues');
+        // const foodArray = [foodValues]
+        toBasket(foodValues);
+        // console.log(foodArray, 'foodVlues');
     };
 
 
