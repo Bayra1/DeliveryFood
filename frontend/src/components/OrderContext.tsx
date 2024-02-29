@@ -14,7 +14,7 @@ export const ProvideOrderData = ({ children }: any) => {
         Khoroo: "",
         Apartment: ""
     });
-    // console.log(orderLocationData, "from orderContext");
+    // console.log([orderLocationData], "from orderContext");
     
 
     return (
@@ -23,3 +23,25 @@ export const ProvideOrderData = ({ children }: any) => {
         </orderContext.Provider>
     );
 };
+
+
+// export const orderContext = createContext({
+//     orderDetail: [],
+//     toOrderPost: (orderInfo: any) => { }
+// });
+
+// export const ProvideOrderData = ({ children }: any) => {
+//     const [orderLocationData, setOrderLocationData] = useState<any>([]);
+    
+//     const toOrderPost: any = (orderInfo: any) => {
+//         setOrderLocationData([...orderLocationData, orderInfo])
+//     }
+//     console.log(orderLocationData, "from orderContext");
+
+//     return (
+//         <orderContext.Provider value={{ orderLocationData, setOrderLocationData, toOrderPost }}>
+//             {children}
+//         </orderContext.Provider>
+//     );
+// };
+

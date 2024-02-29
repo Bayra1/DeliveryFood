@@ -9,21 +9,14 @@ import Navbar from "@/components/Navbar";
 import CheckIcon from '@mui/icons-material/Check';
 import Footer from '@/components/Footer';
 import CloseIcon from '@mui/icons-material/Close';
-import District from '@/components/OrderDetail/District';
-import Khoroo from '@/components/OrderDetail/Khoroo';
-import ApartmentInfo from '@/components/OrderDetail/Apartment';
-import PayByCashOrCard from '@/components/OrderDetail/PayByCashORCard';
-import PhoneNumberOrder from '@/components/OrderDetail/PhoneNumber';
-import AdditionalInfo from '@/components/OrderDetail/AdditionalInfo';
-import StepTwo from '@/components/OrderDetail/StepTwo';
+import StepOne from '@/components/OrderDetail/StepOne';
+import OrderLocInfo from '@/components/OrderLocaInfo';
 
 export default function OrderDetail() {
     const { foodData }: any = useContext(foodContext);
     const { orderLocationData, setOrderLocationData }: any = useContext(orderContext);
     React.useEffect(() => {
-        console.log(orderLocationData, "hey");
-        console.log(setOrderLocationData, "fck");
-        
+        // console.log(orderLocationData, "test");
     }, [orderLocationData])
 
     return (
@@ -32,31 +25,8 @@ export default function OrderDetail() {
                 <Navbar />
                 <Box width={'80%'} mt={10} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                     <Stack display={'flex'} flexDirection={'column'} gap={5}>
-                        <Stack sx={{ display: 'flex', flexDirection: 'row', width: '432px', height: '100px', gap: '16px', padding: '16px 24px' }}>
-                            <Stack sx={{ width: '48px', height: '48px', borderRadius: '50%', bgcolor: '#18BA51', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#FFF' }}>
-                                <CheckIcon />
-                            </Stack>
-                            <Stack>
-                                <Typography sx={{ fontWeight: 400, fontSize: '14px', color: '#8B8E95', lineHeight: '16.71px' }}>Алхам 1</Typography>
-                                <Typography sx={{ fontWeight: 400, fontSize: '20px', color: '#000', lineHeight: '23.87px' }}>Хаягийн мэдээлэл оруулах</Typography>
-                                <Typography sx={{ fontWeight: 400, fontSize: '16px', color: '#18BA51', lineHeight: '19.09px' }}>"nope" : "Оруулсан"</Typography>
-                            </Stack>
-                        </Stack>
-
-                        <Stack boxShadow={'0px 0px 20px 0px rgba(0, 0, 0, 0.05)'} bgcolor={'rgba(255, 255, 255, 1)'} width={'fit-content'} height={'fit-content'} padding={'24px'} borderRadius={'16px'} display={'flex'} flexDirection={'column'} gap={'40px'}>
-
-                            <Stack display={'flex'} flexDirection={'column'} gap={'16px'}>
-                                <Typography sx={{ fontWeight: 400, fontSize: '14px', color: 'black' }}>Хаяг аа оруулна уу</Typography>
-                                <District />
-                                <Khoroo />
-                                <ApartmentInfo />
-                            </Stack>
-                            <AdditionalInfo />
-                            <PhoneNumberOrder />
-                            <PayByCashOrCard />
-
-                        </Stack>
-
+                        <StepOne />
+                        <OrderLocInfo />
                     </Stack>
                     {/* step2 */}
                     <Stack display={'flex'} flexDirection={'column'} gap={5}>
@@ -64,7 +34,11 @@ export default function OrderDetail() {
                             <Stack sx={{ width: '48px', height: '48px', borderRadius: '50%', bgcolor: '#18BA51', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#FFF' }}>
                                 <CheckIcon />
                             </Stack>
-                            <StepTwo />
+                            <Stack>
+                                <Typography sx={{ fontWeight: 400, fontSize: '14px', color: '#8B8E95', lineHeight: '16.71px' }}>Алхам 2</Typography>
+                                <Typography sx={{ fontWeight: 400, fontSize: '20px', color: '#000', lineHeight: '23.87px' }}>Захиалга баталгаажуулах</Typography>
+                                <Typography sx={{ fontWeight: 400, fontSize: '16px', color: '#18BA51', lineHeight: '19.09px' }}>Оруулсан</Typography>
+                            </Stack>
                         </Stack>
 
                         <Stack boxShadow={'0px 0px 20px 0px rgba(0, 0, 0, 0.05)'} bgcolor={'rgba(255, 255, 255, 1)'} width={'432px'} height={'700px'} padding={'24px'} borderRadius={'16px'} display={'flex'} flexDirection={'column'} gap={'40px'}>

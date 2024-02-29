@@ -4,8 +4,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useContext, useState } from "react";
 import { orderContext } from "../OrderContext";
 export default function KhorooInfo() {
-    const [selectedKhoroo, setSelectedKhoroo] = useState("");
     const { setOrderLocationData }: any = useContext(orderContext);
+    const [selectedKhoroo, setSelectedKhoroo] = useState("");
 
     const handleKhorooChange = (event: any) => {
         const khorooValue = event.target.value;
