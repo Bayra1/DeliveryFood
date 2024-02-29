@@ -27,7 +27,7 @@ const orderSchema = new mongoose.Schema({
 
     orderNumber: Number,
     createdDate: Date,
-    district: String,
+    District: String,
     Khoroo: String,
     Apartment: String,
     totalPrice: Number   

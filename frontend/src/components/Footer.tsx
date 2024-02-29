@@ -9,8 +9,8 @@ function Footer() {
     const info = ['Нүүр', "Холбоо барих", "Хоолны цэс", "Үйлчилгээний нөхцөл", "Хүргэлтийн бүс", "нууцлалын бодлого"]
     const rightValid = ["© 2024 Pinecone Foods LLC", "Зохиогчийн эрх хуулиар хамгаалагдсан."]
     return (
-        <Box sx={{ bgcolor: '#18BA51', height: '545px', display: 'flex', alignItems: "center", justifyContent: "center", position: 'relative', marginTop: '100px', backgroundImage: '' }}>
-            <Stack height={'332px'} width={'1200px'} direction={"row"} flexDirection={"column"} gap={'40px'} >
+        <Box width={'100%'} sx={{ bgcolor: '#18BA51', height: '545px', display: 'flex', alignItems: "center", justifyContent: "center", position: 'relative', marginTop: '100px', backgroundImage: '' }}>
+            <Stack height={'332px'} width={'80%'} direction={"row"} flexDirection={"column"} gap={'40px'} >
 
                 {/* <BackPicture /> */}
                 <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={"center"}>
