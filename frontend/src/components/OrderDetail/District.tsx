@@ -1,38 +1,37 @@
-import { Select, MenuItem, Checkbox, FormControl, Button, Input, } from "@mui/material";
-const DistrictSelector = ["Баянзүрх дүүрэг", "Хан-Уул дүүрэг", "Баянгол дүүрэг", "Сонгинохайрхан дүүрэг", "Чингэлтэй дүүрэг"];
+import { Select, MenuItem, FormControl } from "@mui/material";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useContext, useState } from "react";
 import { orderContext } from "../OrderContext";
+import { SelectChangeEvent } from '@mui/material';
+
+const DistrictSelector = ["Баянзүрх дүүрэг", "Хан-Уул дүүрэг", "Баянгол дүүрэг", "Сонгинохайрхан дүүрэг", "Чингэлтэй дүүрэг"];
+
 export default function District({ selectedCategory }: any) {
     const [selectedDistrict, setSelectedDistrict] = useState('');
-    const { orderLocationData, setOrderLocationData }: any = useContext(orderContext);
+    const { setOrderLocationData }: any = useContext(orderContext);
 
-    const goToOrderSection = () => {
-        const orderValues = {
-            selectedCategory
-        };
-        setOrderLocationData(selectedCategory)
+    const handleChangeSelectedDistrict = (event: SelectChangeEvent<string>) => {
+        const districtValue = event.target.value;
+        // console.log(districtValue, "test");
+
+        setSelectedDistrict(districtValue);
+        setOrderLocationData((prevState: any) => ({
+            ...prevState,
+            District: districtValue
+        }));
     }
 
-    const handleChangeSelectedDistrict = (event: any) => {
-        setSelectedDistrict(event.target.value)
-        console.log(selectedDistrict, "selectedDistrict");
-    }
     return (
         <FormControl sx={{ width: '432px', backgroundColor: '#ECEDF0' }}>
-            <Select displayEmpty inputProps={{ 'aria-label': 'Without label' }}>
-                <option defaultChecked={true} style={{ fontWeight: 400, fontSize: '16px', lineHeight: '19.09px', color: '#8B8E95' }} defaultValue={'Дүүрэг сонгоно уу'}><LocationOnIcon />Дүүрэг сонгоно уу</option>
-                {
-                    DistrictSelector.map((el, i) => {
-                        return (
-                            <MenuItem onClick={goToOrderSection} onChange={handleChangeSelectedDistrict} sx={{ display: 'flex', gap: 2 }} key={i} value={el}>
-                                <LocationOnIcon />
-                                {el}
-                            </MenuItem>
-                        )
-                    })
-                }
+            <Select value={selectedDistrict} onChange={handleChangeSelectedDistrict} displayEmpty inputProps={{ 'aria-label': 'Without label' }}>
+                <MenuItem disabled value=""><em><LocationOnIcon />Дүүрэг сонгоно уу</em></MenuItem>
+                {DistrictSelector.map((el, i) => (
+                    <MenuItem key={i} value={el}>
+                        <LocationOnIcon />
+                        {el}
+                    </MenuItem>
+                ))}
             </Select>
         </FormControl>
-    )
+    );
 }

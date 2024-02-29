@@ -9,7 +9,13 @@ interface orderDataType {
 export const orderContext = createContext({});
 
 export const ProvideOrderData = ({ children }: any) => {
-    const [orderLocationData, setOrderLocationData] = useState<orderDataType>();
+    const [orderLocationData, setOrderLocationData] = useState<orderDataType>({
+        District: "",
+        Khoroo: "",
+        Apartment: ""
+    });
+    // console.log(orderLocationData, "from orderContext");
+    
 
     return (
         <orderContext.Provider value={{ orderLocationData, setOrderLocationData }}>

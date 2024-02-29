@@ -1,6 +1,7 @@
 "use client"
 import * as React from 'react';
 import { foodContext } from "@/components/Context";
+import { orderContext } from "@/components/OrderContext";
 import { Stack, Box, Typography, Button } from "@mui/material";
 import { useContext } from "react";
 import { ProvideOrderData } from "@/components/OrderContext";
@@ -14,23 +15,22 @@ import ApartmentInfo from '@/components/OrderDetail/Apartment';
 import PayByCashOrCard from '@/components/OrderDetail/PayByCashORCard';
 import PhoneNumberOrder from '@/components/OrderDetail/PhoneNumber';
 import AdditionalInfo from '@/components/OrderDetail/AdditionalInfo';
+import StepTwo from '@/components/OrderDetail/StepTwo';
 
 export default function OrderDetail() {
-    const { updatedFoodData, foodData }: any = useContext(foodContext);
-    const [isWait, setIsWait] = React.useState<Boolean>(false);
-
-    const handleIsWait = () => {
-        setIsWait(!isWait)
-        console.log(isWait, 'test');
-    }
-
-
+    const { foodData }: any = useContext(foodContext);
+    const { orderLocationData, setOrderLocationData }: any = useContext(orderContext);
+    React.useEffect(() => {
+        console.log(orderLocationData, "hey");
+        console.log(setOrderLocationData, "fck");
+        
+    }, [orderLocationData])
 
     return (
         <ProvideOrderData>
             <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
                 <Navbar />
-                <Box mt={10} width={'55%'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
+                <Box width={'80%'} mt={10} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
                     <Stack display={'flex'} flexDirection={'column'} gap={5}>
                         <Stack sx={{ display: 'flex', flexDirection: 'row', width: '432px', height: '100px', gap: '16px', padding: '16px 24px' }}>
                             <Stack sx={{ width: '48px', height: '48px', borderRadius: '50%', bgcolor: '#18BA51', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#FFF' }}>
@@ -39,7 +39,7 @@ export default function OrderDetail() {
                             <Stack>
                                 <Typography sx={{ fontWeight: 400, fontSize: '14px', color: '#8B8E95', lineHeight: '16.71px' }}>Алхам 1</Typography>
                                 <Typography sx={{ fontWeight: 400, fontSize: '20px', color: '#000', lineHeight: '23.87px' }}>Хаягийн мэдээлэл оруулах</Typography>
-                                <Typography sx={{ fontWeight: 400, fontSize: '16px', color: '#18BA51', lineHeight: '19.09px' }}>{isWait ? "nope" : "Оруулсан"}</Typography>
+                                <Typography sx={{ fontWeight: 400, fontSize: '16px', color: '#18BA51', lineHeight: '19.09px' }}>"nope" : "Оруулсан"</Typography>
                             </Stack>
                         </Stack>
 
@@ -64,37 +64,32 @@ export default function OrderDetail() {
                             <Stack sx={{ width: '48px', height: '48px', borderRadius: '50%', bgcolor: '#18BA51', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#FFF' }}>
                                 <CheckIcon />
                             </Stack>
-                            <Stack>
-                                <Typography sx={{ fontWeight: 400, fontSize: '14px', color: '#8B8E95', lineHeight: '16.71px' }}>Алхам 2</Typography>
-                                <Typography sx={{ fontWeight: 400, fontSize: '20px', color: '#000', lineHeight: '23.87px' }}>Захиалга баталгаажуулах</Typography>
-                                <Typography sx={{ fontWeight: 400, fontSize: '16px', color: '#18BA51', lineHeight: '19.09px' }}>Оруулсан</Typography>
-                            </Stack>
+                            <StepTwo />
                         </Stack>
 
                         <Stack boxShadow={'0px 0px 20px 0px rgba(0, 0, 0, 0.05)'} bgcolor={'rgba(255, 255, 255, 1)'} width={'432px'} height={'700px'} padding={'24px'} borderRadius={'16px'} display={'flex'} flexDirection={'column'} gap={'40px'}>
+                            {foodData && (
+                                foodData.map((item: any, i: any) => (
+                                    <Stack key={i} sx={{ borderStyle: 'solid', borderBottomWidth: '1px', borderBottomColor: '#D6D8DB', paddingBottom: 5 }} display={'flex'} flexDirection={'row'} gap={2}>
+                                        <img style={{ width: '245px', height: '150px' }} src={item.image} />
+                                        <Stack>
+                                            <Button style={{ position: 'absolute', margin: '0 160px', marginRight: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                <CloseIcon />
+                                            </Button>
 
-                            {foodData.map((item: any, i: any) => (
-                                <Stack key={i} sx={{ borderStyle: 'solid', borderBottomWidth: '1px', borderBottomColor: '#D6D8DB', paddingBottom: 5 }} display={'flex'} flexDirection={'row'} mt={6} gap={2}>
-                                    <img style={{ width: '245px', height: '150px' }} src={item.image} />
-                                    <Stack>
-                                        <Button style={{ position: 'absolute', margin: '0 160px', marginRight: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <CloseIcon />
-                                        </Button>
+                                            <Typography sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '27px', fontFamily: 'Poppins', color: 'black' }}>{item.name}</Typography>
+                                            <Typography sx={{ fontWeight: 600, fontSize: '18px', lineHeight: '27px', color: '#18BA51', fontFamily: 'Poppins' }}>{item.price}₮</Typography>
+                                            <Typography sx={{ fontWeight: 400, fontSize: '16px', lineHeight: '19.09px', color: '#767676' }}>{item.ingredient}</Typography>
 
-                                        <Typography sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '27px', fontFamily: 'Poppins', color: 'black' }}>{item.name}</Typography>
-                                        <Typography sx={{ fontWeight: 600, fontSize: '18px', lineHeight: '27px', color: '#18BA51', fontFamily: 'Poppins' }}>{item.price}₮</Typography>
-                                        <Typography sx={{ fontWeight: 400, fontSize: '16px', lineHeight: '19.09px', color: '#767676' }}>{item.ingredient}</Typography>
-
-                                        <Stack mt={2} alignItems={'baseline'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
-                                            <Button style={{ backgroundColor: '#18BA51' }} sx={{ width: '45px', height: '40px', borderRadius: '10px', padding: '0 30px', fontSize: '14px', color: '#FFF' }}>-</Button>
-                                            <Typography sx={{ width: '45px', height: '40px', borderRadius: '10px', padding: '0 30px', fontSize: '14px', color: 'black' }}>{item.count}</Typography>
-                                            <Button style={{ backgroundColor: '#18BA51' }} sx={{ width: '45px', height: '40px', borderRadius: '10px', padding: '0 30px', fontSize: '14px', color: '#FFF' }}>+</Button>
+                                            <Stack mt={2} alignItems={'baseline'} display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
+                                                <Button style={{ backgroundColor: '#18BA51' }} sx={{ width: '45px', height: '40px', borderRadius: '10px', padding: '0 30px', fontSize: '14px', color: '#FFF' }}>-</Button>
+                                                <Typography sx={{ width: '45px', height: '40px', borderRadius: '10px', padding: '0 30px', fontSize: '14px', color: 'black' }}>{item.count}</Typography>
+                                                <Button style={{ backgroundColor: '#18BA51' }} sx={{ width: '45px', height: '40px', borderRadius: '10px', padding: '0 30px', fontSize: '14px', color: '#FFF' }}>+</Button>
+                                            </Stack>
                                         </Stack>
                                     </Stack>
-                                </Stack>
-                            ))}
-                            <Stack mt={40} gap={4} display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'}>
-
+                                )))}
+                            <Stack gap={4} display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'}>
                                 <Stack sx={{ width: '240px', height: '48px', padding: '8px 16px' }}>
                                     <Typography sx={{ fontWeight: 400, fontSize: '16px', lineHeight: '19.09px', color: '#767676' }}>Нийт төлөх дүн</Typography>
                                     <Typography color={"black"}>1500₮</Typography>
