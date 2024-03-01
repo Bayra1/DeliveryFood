@@ -1,7 +1,6 @@
 import { Stack, Typography, Checkbox } from "@mui/material";
 export default function PayByCashOrCard() {
     return (
-
         <Stack display={'flex'} flexDirection={'column'} gap={'16px'}>
             <Typography sx={{ fontWeight: 400, fontSize: '14px', color: 'black' }}>Төлбөр төлөх</Typography>
 

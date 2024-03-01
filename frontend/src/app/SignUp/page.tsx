@@ -20,7 +20,6 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-
 const backEnd = "http://localhost:8001/user/signUp"
 
 export default function SignUp() {
@@ -58,6 +57,7 @@ export default function SignUp() {
                         password
                     });
                     console.log('This is user data', userData);
+                    navigateDash()
                 } else {
                     setError('Passwords cannot match')
                     setTimeout(() => {

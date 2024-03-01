@@ -3,7 +3,7 @@ import { orderContext } from "@/components/OrderContext";
 import { useContext } from "react";
 import CheckIcon from '@mui/icons-material/Check';
 export default function StepOne({ allInfoForStepOne }: any) {
-    console.log(allInfoForStepOne, "test");
+    console.log(allInfoForStepOne, "test from stepOne");
     
 
     return (

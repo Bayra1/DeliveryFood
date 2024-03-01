@@ -69,7 +69,7 @@ export function BasketCard({ closeBasket }: any) {
         //     ...foodData
         // };
         // renewFoodData(foodDataFromBasket)
-        router.push('/OrderDetail');
+        router.push('/OrderPost');
     };
 
     return (
