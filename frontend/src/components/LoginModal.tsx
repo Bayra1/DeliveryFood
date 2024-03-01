@@ -49,16 +49,21 @@ export default function LoginModal() {
                 email,
                 password,
             });
-            
+
+            const existingUserData = response.data.desiredUser
+
+            localStorage.setItem('userData', JSON.stringify(existingUserData))
+
             const jwtToken = response.data.token;
             const decodedToken = jwt.decode(jwtToken) as JwtPayload;
-            
+
             if (decodedToken && decodedToken.desiredUser) {
                 const existingEmail = decodedToken.desiredUser.email;
                 // const existingPassword = decodedToken.desiredUser.password;
-            
+
                 if (existingEmail === email) {
                     router.push(`/?email=${existingEmail}`);
+                    CloseModal()
                 } else {
                     setError('Invalid Inputs');
                     setTimeout(() => {
@@ -66,7 +71,7 @@ export default function LoginModal() {
                     }, 2000);
                 }
             }
-                   
+
         } catch (error) {
             setError('PassWords or Email are invalid');
             console.error(error);

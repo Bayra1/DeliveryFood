@@ -15,6 +15,7 @@ import ProfileLogo from './icons/ProfileLogo';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BasketCard } from "@/components/BasketCardModal";
+import { orderContext } from './OrderContext';
 
 const pages = ['НҮҮР', 'ХООЛНЫ ЦЭС', 'ХҮРГЭЛТИЙН БҮС'];
 
