@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
     process: {
         type: String,
         enum: ['Progress', 'Active', 'Waiting', 'Delivered'],
-        default: 'progress'
+        default: 'Progress'
     },
 
     Payment: {

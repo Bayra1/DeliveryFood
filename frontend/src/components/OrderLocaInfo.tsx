@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { orderContext } from "./OrderContext";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CheckIcon from '@mui/icons-material/Check';
-import AlbumIcon from '@mui/icons-material/Album';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 const Khoroo = ['1-р хороо', "2-р хороо", "3-р хороо", "4-р хороо", "5-р хороо", "6-р хороо", "7-р хороо"];
@@ -54,11 +53,19 @@ export default function OrderLocInfo() {
     const handleChangeAdditionalInfo = (e: any) => {
         const valueAddInfo = e.target.value;
         setAdditionalInfo(valueAddInfo);
+        setOrderLocationData((prevState: any) => ({
+            ...prevState,
+            Description: valueAddInfo
+        }))
     };
 
     const handNumber = (event: any) => {
         const valueofNumber = event.target.value;
-        setPhoneNumber(valueofNumber)
+        setPhoneNumber(valueofNumber);
+        setOrderLocationData((prevState: any) => ({
+            ...prevState,
+            PhoneNumber: valueofNumber
+        }))
     };
 
     const handleByCashChange = () => {

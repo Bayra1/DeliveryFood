@@ -18,7 +18,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
 export const retAllOrders = async (_: Request, res: Response) => {
     try {
-        const allOrders = await orderModel.find();
+        const allOrders = await orderModel.find().populate('foods');
         return res.status(200).send({
             success: true,
             allOrders

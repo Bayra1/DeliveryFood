@@ -4,13 +4,15 @@ import { foodContext } from "@/components/Context";
 import { orderContext } from "@/components/OrderContext";
 import { Stack, Box, Typography, Button } from "@mui/material";
 import { useContext } from "react";
+import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import CheckIcon from '@mui/icons-material/Check';
 import Footer from '@/components/Footer';
 import CloseIcon from '@mui/icons-material/Close';
 import OrderLocInfo from '@/components/OrderLocaInfo';
-import { v4 as uuidv4 } from 'uuid';
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 const backendPostOder = "http://localhost:8001/order/postOrder";
 
@@ -18,25 +20,31 @@ export default function OrderDetail() {
     const { foodData }: any = useContext(foodContext);
     const { orderLocationData }: any = useContext(orderContext);
     let userDataString: string | null = localStorage.getItem('userData')
-    const userData = userDataString ? JSON.parse(userDataString) : null    
+    const userData = userDataString ? JSON.parse(userDataString) : null
+    const router = useRouter();
     // console.log(foodData.map((el) => el.price && el.count), "foodData");
     // console.log(foodData.map((el) => el.price), "foodprice");
-    // console.log(foodData.map((el) => el.forEach((item) => 0 + item.price * item.cpunt)), "whole");
+    console.log(orderLocationData, "hey");
 
-    console.log(foodData)
+
+    // console.log(foodData)
     const postOrderFunc = async () => {
         try {
             const orderDataPost = {
                 Khoroo: orderLocationData.Khoroo,
                 District: orderLocationData.District,
                 Apartment: orderLocationData.Apartment,
+                Description: orderLocationData.Description,
+                PhoneNumber: orderLocationData.PhoneNumber,
                 userId: userData._id,
                 foods: foodData,
                 totalPrice: calculateTotalPrice(),
                 orderNumber: produceOrderNumber(),
                 createdDate: new Date()
             };
-            console.log(orderDataPost, "orderDataPost");
+
+            const afterPost = await axios.post(backendPostOder, orderDataPost)
+            console.log(afterPost, "after");
 
         } catch (error) {
             console.log(error);
@@ -54,9 +62,25 @@ export default function OrderDetail() {
     const produceOrderNumber = () => {
         const uuid = uuidv4();
         const decimalPart = parseInt(uuid.substring(0, 5), 16);
+        console.log(decimalPart, "this is decimal");
+
         const fiveDigitNumber = ('0000' + decimalPart).slice(-5);
         return fiveDigitNumber;
-    }
+    };
+
+    // const navigateToViewLast = () => {
+    //     router.push(`/HistoryUser/${userData.email}`)
+    // };
+
+    // const navigateToViewLast = () => {
+    //     router.push('/HistoryUser')
+    // };
+
+    const navigateToViewLast = () => {
+        router.push('/ViewLast')
+    };
+
+    
 
     return (
         <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
@@ -105,7 +129,10 @@ export default function OrderDetail() {
                                 <Typography sx={{ fontWeight: 400, fontSize: '16px', lineHeight: '19.09px', color: '#767676' }}>Нийт төлөх дүн</Typography>
                                 <Typography color={"black"}>{calculateTotalPrice()}₮</Typography>
                             </Stack>
-                            <Button onClick={postOrderFunc} sx={{ width: '240px', height: '48px', padding: '8px 16px' }} style={{ backgroundColor: '#18BA51', color: "#FFF" }}>Захиалах</Button>
+                            <Button onClick={() => {
+                                postOrderFunc()
+                                navigateToViewLast()
+                            }} sx={{ width: '240px', height: '48px', padding: '8px 16px' }} style={{ backgroundColor: '#18BA51', color: "#FFF" }}>Захиалах</Button>
                         </Stack>
 
                     </Stack>
