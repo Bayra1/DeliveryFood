@@ -27,7 +27,7 @@ function Navbar({ onClick, displayBasket, closeBasket }: any) {
 
   const handleColor = (index: number) => {
     setIsActive(index)
-  }
+  };
 
   const NavigateCat = () => {
     router.push('/Menu')
