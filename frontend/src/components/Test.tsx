@@ -1,111 +1,74 @@
-// import React, { useContext } from "react";
-// import { Box, Button, Card, Stack, Typography } from "@mui/material";
-// import axios from "axios";
-// import { OrderContext } from "./OrderContext";
-// import { useRouter } from "next/navigation";
-// import cookies from 'js-cookie'
-// import jwt from "jsonwebtoken";
-// function OrderFood({ data }: any) {
-//     const order = useContext(OrderContext);
-//     const router = useRouter()
-//     const token = cookies.get('token')
-//     const code = jwt.decode(token as any);
-
-//     const Orderhandler = async () => {
-//         try {
-//             const orderData = {
-//                 userid: code.payload.id,
-//                 khoroo: order.orderDetails.khoroo,
-//                 apartment: order.orderDetails.apartment,
-//                 district: order.orderDetails.district,
-//                 orderNumber: generateOrderNumber(),
-//                 totalPrice: getTotalPrice(),
-//                 createdDate: new Date(),
-//                 foods: data.map((foodItem) => foodItem.selectedFood),
-
-//             };
-//             const response = await axios.post(
-//                 "http://localhost:8000/order",
-//                 orderData
-//             );
-//             console.log(code)
-//             router.push(`/historyPage/${code.payload.id}`)
-//         } catch (error) {
-//             console.error("Error posting order:", error);
-//         }
-//     };
-
-//     function generateOrderNumber() {
-//         let orderNumber = '';
-//         for (let i = 0; i < 5; i++) {
-//             orderNumber += Math.floor(Math.random() * 10);
-//         }
-//         return orderNumber;
-//     }
-//     const getTotalPrice = () => {
-//         let totalPrice = 0;
-//         data.forEach((foodItem) => {
-//             totalPrice += foodItem.selectedFood.price * foodItem.count;
-//         });
-//         return totalPrice;
-//     };
-
-//     return (
-//         <Stack sx={{ width: '432px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between   ' }}>
-//             <Box>
-//                 {data.map((foodItem) => (
-//                     <Card
-//                         key={foodItem.selectedFood.name}
-//                         sx={{ width: "384px", display: "flex", gap: "20px", padding: "10px" }}
-//                     >
-//                         <img
-//                             className=" w-[245px] h-[150px]"
-//                             src={foodItem.selectedFood.image}
-//                         />
-//                         <Box
-//                             sx={{
-//                                 display: "flex",
-//                                 justifyContent: "space-between",
-//                                 flexDirection: "column",
-//                             }}
-//                         >
-//                             <Box>
-//                                 <Typography>{foodItem.selectedFood.name} </Typography>
-//                                 <Typography>{foodItem.selectedFood.price}₮ </Typography>
-//                                 <Typography>{foodItem.selectedFood.ingredient}</Typography>
-//                             </Box>
-//                         </Box>
-//                     </Card>
-//                 ))}</Box>
-
-//             <Box>
-//                 <Typography>Нийт төлөх дүн</Typography>
-//                 {getTotalPrice()}₮<Typography></Typography>
-//                 <Button onClick={Orderhandler}>Захиалах</Button>
-//             </Box>
-//         </Stack>
-//     );
-// }
-
-// export default OrderFood;
+'use client'
+import { Stack } from "@mui/system"
+import useSWR from "swr";
+import cookies from 'js-cookie'
+import jwt from "jsonwebtoken";
+import Step from "@/app/components/Step";
+import { Box, Card, Typography } from "@mui/material";
+import Navbar from "@/app/components/Navbar";
+import { it } from "node:test";
+import Step2 from "@/app/components/Step2";
 
 
+const historyPage = () => {
+    const fetcher = (url: string) => fetch(url).then((r) => r.json());
+    const token = cookies.get('token')
+    const code = jwt.decode(token as any);
+    const { data, error, isLoading } = useSWR(
+        `http://localhost:8000/userOrder/${code.payload.id}`,
+        fetcher
+    );
+    console.log(data)
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+    return (
+        <Stack>
+            <Navbar />
+            <Box sx={{ display: 'flex', justifyContent: 'center ', gap: '100px' }}>
+                <Card>
+                    {data && data.map((foodItem, index) => (
+                        <Stack >
+                            <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around', width: '384px', padding: '16px' }}  >
+                                <Box >
+                                    <Step2 process={foodItem.process} order={foodItem.orderNumber} />
 
-// "use client";
-// import React, { createContext, useState, useContext } from "react";
+                                </Box>
+                                <Typography>{formatDate(foodItem.createdDate)}</Typography>
+                                <Typography></Typography>
 
-// export const OrderContext = createContext({});
+                            </Box>
+                            <Box>
 
-// export const OrderProvider = ({ children }: any) => {
-//   const [orderDetails, setOrderDetails] = useState({
-//     district: "",
-//     khoroo: "",
-//     apartment: "",
-//   });
+                            </Box>
+                        </Stack>
+                    )
+                    )
+                    }
+                </Card>
+                <Card sx={{ width: '432px' }}>
+                    <Typography>Захиалгын дэлгэрэнгүй</Typography>
+                    {data && data.map((item) => (
+                        <Stack sx={{ padding: '16px' }}>
+                            <Box>
 
-//   return (
-//     <OrderContext.Provider value={{ orderDetails, setOrderDetails }}>
-//       {children}
-//     </OrderContext.Provider>
-//   );
-// };
+                                {item.foods.map(e => (
+                                    <Typography>{e.name}</Typography>
+                                ))}
+                                <hr />
+                            </Box>
+                        </Stack>
+                    ))}
+                </Card>
+
+            </Box>
+
+
+        </Stack>
+    )
+}
+export default historyPage

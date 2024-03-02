@@ -24,9 +24,7 @@ export default function OrderDetail() {
     const router = useRouter();
     // console.log(foodData.map((el) => el.price && el.count), "foodData");
     // console.log(foodData.map((el) => el.price), "foodprice");
-    console.log(orderLocationData, "hey");
-
-
+    // console.log(orderLocationData, "hey");
     // console.log(foodData)
     const postOrderFunc = async () => {
         try {
@@ -44,7 +42,7 @@ export default function OrderDetail() {
             };
 
             const afterPost = await axios.post(backendPostOder, orderDataPost)
-            console.log(afterPost, "after");
+            // console.log(afterPost, "after");
 
         } catch (error) {
             console.log(error);
@@ -62,7 +60,7 @@ export default function OrderDetail() {
     const produceOrderNumber = () => {
         const uuid = uuidv4();
         const decimalPart = parseInt(uuid.substring(0, 5), 16);
-        console.log(decimalPart, "this is decimal");
+        // console.log(decimalPart, "this is decimal");
 
         const fiveDigitNumber = ('0000' + decimalPart).slice(-5);
         return fiveDigitNumber;
