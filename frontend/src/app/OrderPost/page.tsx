@@ -59,6 +59,8 @@ export default function OrderDetail() {
 
     const produceOrderNumber = () => {
         const uuid = uuidv4();
+        console.log(uuid, "uuid");
+        
         const decimalPart = parseInt(uuid.substring(0, 5), 16);
         // console.log(decimalPart, "this is decimal");
 
