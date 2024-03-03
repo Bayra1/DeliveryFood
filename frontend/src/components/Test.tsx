@@ -1,24 +1,20 @@
-'use client'
-import { Stack } from "@mui/system"
-import useSWR from "swr";
-import cookies from 'js-cookie'
-import jwt from "jsonwebtoken";
-import Step from "@/app/components/Step";
-import { Box, Card, Typography } from "@mui/material";
-import Navbar from "@/app/components/Navbar";
-import { it } from "node:test";
-import Step2 from "@/app/components/Step2";
-
-
-const historyPage = () => {
-    const fetcher = (url: string) => fetch(url).then((r) => r.json());
-    const token = cookies.get('token')
-    const code = jwt.decode(token as any);
-    const { data, error, isLoading } = useSWR(
-        `http://localhost:8000/userOrder/${code.payload.id}`,
-        fetcher
-    );
-    console.log(data)
+import { Box, Button, Stack, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import axios from 'axios';
+import StatusModal from './StatusModal';
+function AdminOrder({ data }: any) {
+    const [modal, setModal] = useState<boolean>(false);
+    const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+    const orderId = data && data.map(e => {
+        const id = e._id
+        return id
+    })
+    const modalHandle = (orderId: string) => {
+        setSelectedOrderId(orderId);
+        setModal(!modal);
+    };
+    console.log(selectedOrderId)
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -27,48 +23,64 @@ const historyPage = () => {
         return `${year}-${month}-${day}`;
     };
     return (
-        <Stack>
-            <Navbar />
-            <Box sx={{ display: 'flex', justifyContent: 'center ', gap: '100px' }}>
-                <Card>
-                    {data && data.map((foodItem, index) => (
-                        <Stack >
-                            <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around', width: '384px', padding: '16px' }}  >
-                                <Box >
-                                    <Step2 process={foodItem.process} order={foodItem.orderNumber} />
-
-                                </Box>
-                                <Typography>{formatDate(foodItem.createdDate)}</Typography>
-                                <Typography></Typography>
-
-                            </Box>
-                            <Box>
-
-                            </Box>
-                        </Stack>
-                    )
-                    )
-                    }
-                </Card>
-                <Card sx={{ width: '432px' }}>
-                    <Typography>Захиалгын дэлгэрэнгүй</Typography>
-                    {data && data.map((item) => (
-                        <Stack sx={{ padding: '16px' }}>
-                            <Box>
-
-                                {item.foods.map(e => (
-                                    <Typography>{e.name}</Typography>
-                                ))}
-                                <hr />
-                            </Box>
-                        </Stack>
-                    ))}
-                </Card>
-
+        <Box display={'flex'}>
+            <Box display={'flex'} flexDirection={'column'} gap={2} width={'fit'} height={'72px'} px={'16px'} py={"24px"}>
+                {data && data.map((e) => (
+                    <Box gap={'20px'} display={'flex'}  >
+                        {
+                            e.foods.map(food => (
+                                <img width={'40px'} height={'40px'} src={food.image} />
+                            ))
+                        }
+                        <Box>
+                            <Typography>#{e.orderNumber}</Typography>
+                            {
+                                e.foods.map(food => (
+                                    <Typography>{food.name}</Typography>
+                                ))
+                            }
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
+            <Box display={'flex'} flexDirection={'column'} gap={2} width={'140px'} height={'72px'} px={'16px'} py={"24px"}>
+                {data && data.map((e) => (
+                    <Box display={'flex'} flexDirection={'column'}>
+                        <Typography>{e.userid.name}</Typography>
+                        <Typography>{e.userid.phone_number}</Typography>
+                    </Box>
+                ))}
+            </Box>
+            <Box display={'flex'} flexDirection={'column'} gap={2} width={'230px'} height={'72px'} py={"24px"}   >
+                {data && data.map((e) => (
+                    <Box display={'flex'} gap={2} alignItems={'center'}>
+                        <Box>         <Typography>{e.totalPrice}</Typography>
+                            <Typography>{formatDate(e.createdDate)}</Typography></Box>
+                        <Typography>{e.payment}</Typography>
+                    </Box>
+                ))}
+            </Box>
+            <Box display={'flex'} flexDirection={'column'} gap={2} width={'fit'} height={'72px'} py={"24px"}>
+                {data && data.map((e) => (
+                    <Box display={'flex'} flexDirection={'column'}>
+                        <Typography>{e.district},<br />{e.khoroo},{e.apartment}</Typography>
+                    </Box>
+                ))}
+            </Box>
+            <Box display={'flex'} flexDirection={'column'} gap={'30px'} px={'24px'} width={'fit'} height={'72px'} py={"24px"}>
+                {data && data.map((e) => (
+                    <Box display={'flex'} gap={10}  >
+                        <Typography>{e.process}</Typography>
+                        <Button onClick={() => modalHandle(e._id)}>
+                            <MoreVertIcon />
+                        </Button>
+                        {modal && selectedOrderId === e._id && <StatusModal selectedId={selectedOrderId} />}
+                    </Box>
+                ))}
             </Box>
 
-
-        </Stack>
+        </Box>
     )
 }
-export default historyPage
+
+export default AdminOrder

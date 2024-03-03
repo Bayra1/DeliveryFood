@@ -1,53 +1,58 @@
-import { Stack, Box, Typography, TextField, InputBase, styled, } from "@mui/material";
+'use client'
+import { Box, Typography, Stack } from "@mui/material";
+import { useState } from "react";
+import AdminOrderTable from "@/components/AdminOrderTable";
 import Navbar from "@/components/Navbar";
 import ClassifyAdminHeader from "@/components/ClassifyAdminHeader";
 import SearchIcon from "@mui/icons-material/Search";
-import { Search } from "@mui/icons-material";
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
+import useSWR from "swr";
 
-  const StyledInputBase = styled(InputBase)(({ theme }:any) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-    },
-  }));
-  
+const inputStyle = {
+    width: "356px",
+    height: "36px",
+    borderRadius: "8px",
+    borderStyle: "solid",
+    borderWidth: "1px",
+    backgroundColor: "#ECEDF0",
+    paddingLeft: "30px",
+    color: "black",
+    fontWeight: 600,
+    fontSize: 14,
+    lineHeight: 16
+};
 
+const searcIconStyle: any = {
+    position: "absolute",
+    margin: "8px",
+    color: "#121316"
+};
 
 export default function AdminDashBoard() {
+    const fetcher = (url:string) => fetch(url).then((el) => el.json())
+    const [searchByOrderNumber, setSearchOrderNumber] = useState("");
+    const {data, error, isLoading} = useSWR("http://localhost:8001/order/retAll", fetcher);
+    // console.log(data, "this is daataa");
+    
+
+    const handleSearch = (event: any) => {
+        setSearchOrderNumber(event.target.value);
+    };
+
     return (
         <Box sx={{ flexDirection: "column" }} display={"flex"} alignItems={"center"} justifyContent={"center"}>
             <Navbar />
             <Box sx={{ display: "flex", width: "1024px", height: "624px", mt: "84px", borderRadius: "12px", borderStyle: "solid", borderWidth: "1px", borderColor: "#ECEDF0", backgroundColor: "#fff", flexDirection: "column" }}>
                 <Box padding={"20px 24px"} width={'100%'} display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
                     <Typography sx={{ fontWeight: 700, fontSize: "20px", lineHeight: "28px", color: "#121316", width: "604px", height: "36px" }}>Admin DashBoard</Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                    <Stack sx={{ position: "relative" }}>
+                        <SearchIcon style={searcIconStyle} />
+                        <input style={inputStyle} type="text" placeholder=" Search" value={searchByOrderNumber} onChange={handleSearch} />
+                    </Stack>
                 </Box>
                 <ClassifyAdminHeader />
+                {/* Table of user information */}
+                {!isLoading ? <AdminOrderTable orderUserData={data} /> : <Typography>isLoading</Typography>}
             </Box>
         </Box>
-    )
+    );
 }
