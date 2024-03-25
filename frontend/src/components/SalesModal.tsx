@@ -5,14 +5,12 @@ import { foodContext } from "./Context";
 
 const style = {
   position: "absolute",
-  top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "fit-content",
   height: "564px",
   bgcolor: "#FFF",
   boxShadow: 24,
-  p: 4,
   borderRadius: "16px",
 };
 
@@ -64,7 +62,7 @@ const styleBasket = {
   marginTop: 30,
 };
 
-export function FoodModal({ foodCardId, food, CloseModal }: any) {
+export function SalesModal({ foodCardId, food, CloseModal }: any) {
   const [count, setCount] = useState(0);
   const { toBasket } = useContext(foodContext);
   const selectedFood = food.find((el: { _id: any }) => el._id === foodCardId);
